@@ -1,3 +1,12 @@
+* {
+    box-sizing: border-box;
+
+}
+
+body{
+        overflow-x: hidden;
+
+}
 .hero-bg {
     background-image: url('../images/lion-hero.jpg');
     background-size: cover;
@@ -10,16 +19,18 @@
     0% {
         transform: translateY(0) rotate(0deg);
     }
+
     50% {
         transform: translateY(-14px) rotate(2deg);
     }
+
     100% {
         transform: translateY(0) rotate(0deg);
     }
 }
 
 .logo-anim {
-    
+
     animation: float 2s ease-in-out infinite;
     transition: transform 0.4s ease, filter 0.4s ease;
 }
@@ -27,7 +38,8 @@
 /* Hover premium */
 .group:hover .logo-anim {
     transform: scale(1.1) rotate(-5deg);
-    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6)); /* accent */
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6));
+    /* accent */
 }
 
 
@@ -38,10 +50,12 @@
         opacity: 0;
         transform: translateY(40px) scale(0.8);
     }
+
     60% {
         opacity: 1;
         transform: translateY(-6px) scale(1.05);
     }
+
     100% {
         transform: translateY(0) scale(1);
     }
@@ -49,9 +63,12 @@
 
 /* Brillance lente */
 @keyframes cupGlow {
-    0%, 100% {
+
+    0%,
+    100% {
         filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.4));
     }
+
     50% {
         filter: drop-shadow(0 0 28px rgba(245, 158, 11, 0.9));
     }
@@ -63,8 +80,78 @@
         cupReveal 1.2s ease-out forwards,
         cupGlow 3s ease-in-out infinite;
 }
+
 .cup-wrapper:hover .cup-anim {
     transform: scale(1.08) rotate(-2deg);
     filter: drop-shadow(0 0 40px rgba(245, 158, 11, 1));
     transition: all 0.4s ease;
+}
+
+
+.bg_image {
+    background-image: url('../images/lion-male-roar.avif');
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #14532d 0%, #16a34a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-anim {
+    transition: transform 0.3s ease;
+}
+
+.logo-anim:hover {
+    transform: rotate(5deg) scale(1.1);
 }

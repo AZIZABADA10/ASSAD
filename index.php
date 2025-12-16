@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="assets/js/tailwind-config.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="shortcut icon" href="assets/images/assad_logo.png" type="image/x-icon">
 </head>
 
 <body class="bg-light text-dark">
@@ -176,7 +177,10 @@
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
 
         <div>
-            <h3 class="text-xl font-bold text-white mb-4">🦁 Zoo ASSAD</h3>
+            <h3 class="text-xl font-bold text-white mb-4">
+              <img src="assets/images/assad_logo.png" 
+               alt="Symbole CAN 2025"
+               class="h-16 w-16 object-contain inline-block"> Zoo ASSAD</h3>
             <p>
                 Un zoo virtuel moderne célébrant la CAN 2025 et la richesse de la faune africaine.
             </p>
