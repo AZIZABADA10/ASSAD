@@ -163,6 +163,12 @@
             </div>
         </div>
     </div>
+    <div class="text-center mt-12">
+            <a href="pages/public/animals.php"
+               class="bg-accent text-dark px-8 py-3 rounded-full font-bold hover:shadow-xl transition">
+                Voir tous les Visites →
+            </a>
+        </div>
 </section>
 
 <!-- ================= FOOTER ================= -->
