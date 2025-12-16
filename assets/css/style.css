@@ -1,0 +1,70 @@
+.hero-bg {
+    background-image: url('../images/lion-hero.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* Animation douce en continu */
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-14px) rotate(2deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.logo-anim {
+    
+    animation: float 2s ease-in-out infinite;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* Hover premium */
+.group:hover .logo-anim {
+    transform: scale(1.1) rotate(-5deg);
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6)); /* accent */
+}
+
+
+
+/* Apparition majestueuse */
+@keyframes cupReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.8);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.05);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Brillance lente */
+@keyframes cupGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.4));
+    }
+    50% {
+        filter: drop-shadow(0 0 28px rgba(245, 158, 11, 0.9));
+    }
+}
+
+/* Animation principale */
+.cup-anim {
+    animation:
+        cupReveal 1.2s ease-out forwards,
+        cupGlow 3s ease-in-out infinite;
+}
+.cup-wrapper:hover .cup-anim {
+    transform: scale(1.08) rotate(-2deg);
+    filter: drop-shadow(0 0 40px rgba(245, 158, 11, 1));
+    transition: all 0.4s ease;
+}
