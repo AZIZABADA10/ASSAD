@@ -2,7 +2,7 @@
 session_start();
 
 $erreurs = [
-    'se_connecter' => $_SESSION['se_connecter_erreur'] ?? '',
+    'login_error' => $_SESSION['login_error'] ?? '',
     's_inscrire'   => $_SESSION['sinscrire_erreur'] ?? ''
 ];
 
@@ -21,7 +21,6 @@ function afficher_erreurs($erreur) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lion de l'Atlas | Zoo ASSAD</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../assets/js/tailwind-config.js"></script>
   <link rel="shortcut icon" href="../../assets/images/assad_logo.png" type="image/x-icon">
@@ -54,9 +53,6 @@ function afficher_erreurs($erreur) {
         
     </div>
   </header>
-
-
-
 <!-- MAIN -->
 <main class="min-h-screen flex items-center justify-center pt-32 px-4
              bg-[url('../../assets/images/jungle-bg.jpg')] bg-cover bg-center">
@@ -73,19 +69,19 @@ function afficher_erreurs($erreur) {
                 Connexion Zoo ASSAD
             </h2>
 
-            <?= afficher_erreurs($erreurs['se_connecter']); ?>
+            <?= afficher_erreurs($erreurs['login_error']); ?>
 
-            <form action="auth.php" method="POST" class="space-y-4">
+            <form action="../../actions/auth.php" method="POST" class="space-y-4">
 
                 <input type="email" name="email" placeholder="Email"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none">
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
                 <input type="password" name="password" placeholder="Mot de passe"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none">
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
                 <button name="connecter"
                         class="w-full py-3 rounded-lg bg-accent text-dark
@@ -137,8 +133,8 @@ function afficher_erreurs($erreur) {
                                border border-white/20 text-white
                                focus:ring-2 focus:ring-accent focus:outline-none">
                     <option value="">Sélectionner un rôle</option>
-                    <option value="Visiteur">Visiteur</option>
-                    <option value="Guide">Guide</option>
+                    <option value="visiteur">Visiteur</option>
+                    <option value="guide">Guide</option>
                 </select>
 
                 <button name="inscrire"
