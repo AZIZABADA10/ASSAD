@@ -6,14 +6,13 @@ if (isset($_POST['connecter'])) {
 
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $role_choisi = $_POST['role']; 
 
     $stmt = $connexion->prepare("SELECT * FROM utilisateurs WHERE email = ?");
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $user = $stmt->get_result()->fetch_assoc();
 
-    if ($user) {
+    if ($user && $user['statut_de_compet'] === 'active') {
         $is_valid = false;
 
         if (password_verify($password, $user['mot_de_passe'])) {
@@ -42,7 +41,16 @@ if (isset($_POST['connecter'])) {
             }
             exit();
         }
-    }else {
+    }
+    elseif($user && $user['statut_de_compet'] === 'blocked')
+        {
+            $_SESSION['attend_activation'] = "Votre compte a été créé. Veuillez attendre l'activation par un admin.";            
+            $_SESSION['form_active'] = 'login-form';
+            header('Location: ../pages/public/login.php');
+            exit();
+        }
+    else
+        {
         $_SESSION['login_error'] = "Email ou mot de passe incorrect";
         $_SESSION['form_active'] = 'login-form';
         header('Location: ../pages/public/login.php');

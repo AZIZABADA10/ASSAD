@@ -16,5 +16,5 @@ grant all privileges on assad.* to 'adminAssad'@'localhost';
 insert into utilisateurs (nom_complet,email,`role`,mot_de_passe) 
 values ('administrateur','admin@assad.ma','admin','Assad@286');
 
-
-
+ALTER TABLE utilisateurs 
+MODIFY COLUMN statut_de_compte ENUM('active', 'blocke', 'en_attend') DEFAULT 'en_attend';

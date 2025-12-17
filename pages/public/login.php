@@ -6,7 +6,8 @@ $erreurs = [
     's_inscrire'  => $_SESSION['sinscrire_erreur'] ?? '',
     'email_error' => $_SESSION['register_errors']['email_error'] ?? '',
     'password_error' => $_SESSION['register_errors']['password_error'] ?? '',
-    'email_existe' => $_SESSION['register_errors']['email_existe'] ?? ''
+    'email_existe' => $_SESSION['register_errors']['email_existe'] ?? '',
+    'attend_activation' =>  $_SESSION['attend_activation'] ?? ''
 ];
 
 $form_active = $_SESSION['form_active'] ?? 'login-form';
@@ -74,7 +75,12 @@ function afficher_erreurs($erreur) {
             <h2 class="text-2xl font-bold text-center text-accent mb-6">
                 Connexion Zoo ASSAD
             </h2>
-
+            <?php if (isset($erreurs['attend_activation'])): ?>
+                <div class="bg-blue-500/20 border border-blue-500 text-blue-200 p-4 rounded-lg mb-6 text-center">
+                    <?= $_SESSION['attend_activation']; ?>
+                </div>
+                <?php unset($_SESSION['attend_activation']); ?>
+            <?php endif; ?>
             <?= afficher_erreurs($erreurs['login_error']); ?>
 
             <form action="../../actions/auth.php" method="POST" class="space-y-4">
@@ -88,14 +94,14 @@ function afficher_erreurs($erreur) {
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
-                <select name="role"
+                <!-- <select name="role"
                         class="w-full px-4 py-3 rounded-lg bg-dark
                                border border-white/20 text-white
                                focus:ring-2 focus:ring-accent focus:outline-none" required>
                     <option value="">Sélectionner un rôle</option>
                     <option value="admin">Admin</option>
                     <option value="visiteur">Visiteur</option>
-                    <option value="guide">Guide</option>
+                    <option value="guide">Guide</option> -->
                 </select>
 
                 <button name="connecter"
