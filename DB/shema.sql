@@ -1,117 +1,98 @@
-CREATE DATABASE if NOT EXISTS assad;
-use assad;
-CREATE TABLE if not EXISTS utilisateurs (
-    id_utilisateur int unsigned  AUTO_INCREMENT  PRIMARY KEY,
-    nom_complet varchar(50),
-    email varchar(256) UNIQUE,
-    `role` ENUM('admin','visiteur','guide'),
-    mot_de_passe varchar(255)
+CREATE DATABASE assad;
+USE assad;
+
+DROP TABLE utilisateurs;
+CREATE TABLE utilisateurs (
+    id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
+    nom_complet VARCHAR(50) NOT NULL,
+    email VARCHAR(256) UNIQUE NOT NULL,
+    `role` ENUM('admin','visiteur','guide') NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    statut_de_compet ENUM('active','blocked','en_attente') DEFAULT 'active'
 );
 
 
-create user 'adminAssad'@'localhost' IDENTIFIED BY 'Assad@286';
-grant all privileges on assad.* to 'adminAssad'@'localhost';
+-- CREATE USER 'adminAssad'@'localhost'
+-- IDENTIFIED BY 'Assad@286';
+
+-- GRANT ALL PRIVILEGES ON assad.* TO 'adminAssad'@'localhost';
+-- FLUSH PRIVILEGES;
 
 
-insert into utilisateurs (nom_complet,email,`role`,mot_de_passe) 
-values ('administrateur','admin@assad.ma','admin','Assad@286');
-
-ALTER TABLE utilisateurs 
-MODIFY COLUMN statut_de_compet ENUM('active', 'blocked', 'en_attend');
+INSERT INTO utilisateurs (nom_complet, email, `role`, mot_de_passe)
+VALUES (
+    'Administrateur',
+    'admin@assad.ma',
+    'admin',
+    '$2y$10$Jv6f23innul92p/lXtELOO0Coi9TKTSJz.Ks2R/hMueEomcX56Biu'
+);
 
 
 CREATE TABLE habitats (
-    id_habitat int primary key AUTO_INCREMENT,
-    nom_habitat varchar(250),
-    type_climat varchar(250),
-    description_habitat varchar(250),
-    zonezoo varchar(250)
+    id_habitat INT AUTO_INCREMENT PRIMARY KEY,
+    nom_habitat VARCHAR(250) NOT NULL,
+    type_climat VARCHAR(250),
+    description_habitat VARCHAR(250),
+    zone_zoo VARCHAR(250)
 );
+
 
 CREATE TABLE animal (
-    id_animal int primary key AUTO_INCREMENT,
-    nom_animal varchar(150),
-    espace varchar(150),
-    alimentation varchar(100),
-    image_animal varchar(250),
-    pays_origine varchar(250),
-    description_courte varchar(250),
-    id_habitat int,
+    id_animal INT AUTO_INCREMENT PRIMARY KEY,
+    nom_animal VARCHAR(150) NOT NULL,
+    espace VARCHAR(150),
+    alimentation VARCHAR(100),
+    image_animal VARCHAR(250),
+    pays_origine VARCHAR(250),
+    description_courte VARCHAR(250),
+    id_habitat INT,
     FOREIGN KEY (id_habitat) REFERENCES habitats(id_habitat)
 );
-  
 
-CREATE TABLE IF NOT EXISTS visitesguidees (
+
+CREATE TABLE visitesguidees (
     id_visite INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(250) NOT NULL,
+    description TEXT,
     date_heure DATETIME NOT NULL,
     langue VARCHAR(100),
     capacite_max INT,
     statut ENUM('ouverte','complete','annulee') DEFAULT 'ouverte',
-    duree INT COMMENT 'Durée en minutes',
-    prix DECIMAL(8,2)
+    duree INT,
+    prix DECIMAL(8,2),
+    id_guide INT,
+    FOREIGN KEY (id_guide) REFERENCES utilisateurs(id_utilisateur)
 );
 
 
-CREATE TABLE IF NOT EXISTS etapesvisite (
+CREATE TABLE etapesvisite (
     id_etape INT AUTO_INCREMENT PRIMARY KEY,
     titreetape VARCHAR(250) NOT NULL,
     descriptionetape TEXT,
     ordreetape INT,
-    id_visite INT NOT NULL,
-    CONSTRAINT fk_etape_visite
-        FOREIGN KEY (id_visite)
-        REFERENCES visitesguidees(id_visite)
-        ON DELETE CASCADE
+    id_visite INT,
+    FOREIGN KEY (id_visite) REFERENCES visitesguidees(id_visite)
 );
 
 
-CREATE TABLE IF NOT EXISTS reservations (
+CREATE TABLE reservations (
     id_reservation INT AUTO_INCREMENT PRIMARY KEY,
-    id_visite INT NOT NULL,
-    id_utilisateur INT UNSIGNED NOT NULL,
-    nb_personnes INT NOT NULL,
+    id_visite INT,
+    id_utilisateur INT,
+    nb_personnes INT,
     date_reservation DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_reservation_visite
-        FOREIGN KEY (id_visite)
-        REFERENCES visitesguidees(id_visite)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_reservation_utilisateur
-        FOREIGN KEY (id_utilisateur)
-        REFERENCES utilisateurs(id_utilisateur)
-        ON DELETE CASCADE
+    statut ENUM('en_attente','confirmee','annulee') DEFAULT 'en_attente',
+    FOREIGN KEY (id_visite) REFERENCES visitesguidees(id_visite),
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur)
 );
 
-
-
-CREATE TABLE IF NOT EXISTS commentaires (
+CREATE TABLE commentaires (
     id_commentaire INT AUTO_INCREMENT PRIMARY KEY,
-    id_visite INT NOT NULL,
-    id_utilisateur INT NOT NULL,
-    note INT,
+    id_visite INT,
+    id_utilisateur INT,
+    note INT CHECK (note BETWEEN 1 AND 5),
     texte TEXT,
     date_commentaire DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_commentaire_visite
-        FOREIGN KEY (id_visite)
-        REFERENCES visitesguidees(id_visite)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_commentaire_utilisateur
-        FOREIGN KEY (id_utilisateur)
-        REFERENCES utilisateurs(id_utilisateur)
-        ON DELETE CASCADE
+        FOREIGN KEY (id_visite) REFERENCES visitesguidees(id_visite),
+        FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur)
 );
-
-
-
-ALTER TABLE visitesguidees
-ADD COLUMN id_guide INT UNSIGNED NOT NULL AFTER id_visite,
-ADD CONSTRAINT fk_visite_guide
-  FOREIGN KEY (id_guide) REFERENCES utilisateurs(id_utilisateur);
-
-
-ALTER TABLE visitesguidees
-ADD COLUMN description TEXT AFTER titre;
-
-
-ALTER TABLE reservations
-ADD COLUMN statut ENUM('en_attente', 'confirmee', 'annulee') DEFAULT 'en_attente';
