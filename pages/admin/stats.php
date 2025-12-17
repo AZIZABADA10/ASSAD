@@ -62,7 +62,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     font-medium text-white/90
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-dashboard text-xl group-hover:scale-110 transition'></i>
             <span>Page principale</span>
         </a>
@@ -71,7 +71,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-community text-xl group-hover:scale-110 transition'></i>
             <span>Utilisateurs</span>
         </a>
@@ -80,7 +80,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-paw-print text-xl group-hover:scale-110 transition'></i>
             <span>Animaux</span>
         </a>
@@ -89,7 +89,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-home text-xl group-hover:scale-110 transition'></i>
             <span>Habitats</span>
         </a>
@@ -98,7 +98,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     bg-white/10 text-accent font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-chart-line text-xl group-hover:scale-110 transition'></i>
             <span>Statistiques</span>
         </a>
