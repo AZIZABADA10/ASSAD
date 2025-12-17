@@ -13,7 +13,7 @@
         $user = $stmt->get_result()->fetch_assoc();
 
        if ($user) {
-        $is_valide = (password_verify($password,$user['mot_de_passe']) || $password === $user['mot_de_passe']);
+        $is_valide = password_verify($password, $user['mot_de_passe']);
         if ($is_valide) {
             if ($user['statut_de_compet'] === 'active') {
                 $_SESSION['user'] = $user;
@@ -34,7 +34,7 @@
                         break;
                 }
                 exit();
-            }elseif ($user['statut_de_compet'] === 'en_attend') {
+            }elseif ($user['statut_de_compet'] === 'en_attente') {
                 $_SESSION['attend_activation'] = "Votre compte est en attente d'activation par l'administrateur.";
             }elseif($user['statut_de_compet'] === 'blocked'){
                 $_SESSION['login_error'] = "Ce compte a été bloqué par l'administration.";
@@ -86,7 +86,8 @@
             VALUES (?,?,?,?,?)");
             $statut_de_compet = 'active';
             if ( $role === 'guide') {
-                $statut_de_compet = 'en_attend';  
+                $statut_de_compet = 'en_attente';
+ 
             }
             $stmt -> bind_param('sssss',$nom,$password_hache,$email,$role,$statut_de_compet);
                 $stmt->execute();
