@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    header('Location: ../../actions/logout.php');
+    header('Location: ../../pages/public/login.php');
     exit();
 }
 
