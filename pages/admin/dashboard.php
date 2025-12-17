@@ -1,9 +1,20 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: ../../actions/logout.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lion de l'Atlas | Dashboard Admin</title>
+  <title>Dashboard Admin</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../assets/js/tailwind-config.js"></script>
   <link rel="shortcut icon" href="../../assets/images/assad_logo.png" type="image/x-icon">
@@ -47,19 +58,17 @@
     <!-- Sidebar -->
     <aside class="fixed left-0 top-24 h-[calc(100vh-6rem)] w-64 bg-dark text-white border-r border-white/10">
       <div class="p-6">
-        <h2 class="text-lg font-semibold mb-6 text-accent">Dashboard Admin</h2>
-        <nav class="space-y-1">
 
         <a href="dashboard.php"
             class="flex items-center gap-3 px-4 py-3 rounded-xl
-                    text-white/90 font-medium
+                    font-medium bg-white/10 text-accent
                     hover:bg-white/10 hover:text-accent
                     transition-all duration-300 group">
             <i class='bx bx-dashboard text-xl group-hover:scale-110 transition'></i>
             <span>Page principale</span>
         </a>
 
-        <a href="users.php"
+        <a href="manage_users.php"
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
@@ -68,7 +77,7 @@
             <span>Utilisateurs</span>
         </a>
 
-        <a href="animals.php"
+        <a href="manage_animals.php"
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
@@ -77,7 +86,7 @@
             <span>Animaux</span>
         </a>
 
-        <a href="habitats.php"
+        <a href="manage_habitats.php"
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
@@ -102,32 +111,9 @@
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
       <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard</h1>
-      <p class="text-gray-600">
-        Sélectionnez une section depuis la barre latérale pour gérer le zoo.
-      </p>
 
-      <!-- Exemple de cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-        <div class="bg-white rounded-xl shadow p-6">
-          <h3 class="font-semibold">Utilisateurs</h3>
-          <p class="text-2xl font-bold mt-2">24</p>
-        </div>
+      
 
-        <div class="bg-white rounded-xl shadow p-6">
-          <h3 class="font-semibold">Animaux</h3>
-          <p class="text-2xl font-bold mt-2">58</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow p-6">
-          <h3 class="font-semibold">Habitats</h3>
-          <p class="text-2xl font-bold mt-2">12</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow p-6">
-          <h3 class="font-semibold">Visites</h3>
-          <p class="text-2xl font-bold mt-2">7</p>
-        </div>
-      </div>
     </main>
 
   </div>
