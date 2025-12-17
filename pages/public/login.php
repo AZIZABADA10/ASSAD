@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+$erreurs = [
+    'se_connecter' => $_SESSION['se_connecter_erreur'] ?? '',
+    's_inscrire'   => $_SESSION['sinscrire_erreur'] ?? ''
+];
+
+$form_active = $_SESSION['form_active'] ?? 'login-form';
+session_unset();
+
+function afficher_erreurs($erreur) {
+    return !empty($erreur)
+        ? "<p class='bg-red-500/20 border border-red-500 text-red-300 px-4 py-2 rounded-lg text-sm mb-4'>$erreur</p>"
+        : '';
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,10 +51,7 @@
             <a href="../public/visits.php" class="hover:text-accent transition">Visites Guidées</a>
             <a href="../public/lion.php" class="hover:text-accent transition">Lion de l'Atlas</a>
         </nav>
-        <a href="../public/login.php"
-           class="bg-accent text-dark px-5 py-2 rounded-full font-semibold hover:scale-105 transition-all">
-            Connexion
-        </a>
+        
     </div>
   </header>
 
@@ -58,6 +72,8 @@
             <h2 class="text-2xl font-bold text-center text-accent mb-6">
                 Connexion Zoo ASSAD
             </h2>
+
+            <?= afficher_erreurs($erreurs['se_connecter']); ?>
 
             <form action="auth.php" method="POST" class="space-y-4">
 
@@ -97,6 +113,8 @@
                 Inscription Zoo ASSAD
             </h2>
 
+            <?= afficher_erreurs($erreurs['s_inscrire']); ?>
+
             <form action="auth.php" method="POST" class="space-y-4">
 
                 <input type="text" name="nom" placeholder="Nom complet"
@@ -119,8 +137,8 @@
                                border border-white/20 text-white
                                focus:ring-2 focus:ring-accent focus:outline-none">
                     <option value="">Sélectionner un rôle</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Utilisateur">Utilisateur</option>
+                    <option value="Visiteur">Visiteur</option>
+                    <option value="Guide">Guide</option>
                 </select>
 
                 <button name="inscrire"
