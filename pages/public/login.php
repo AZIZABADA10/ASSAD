@@ -3,11 +3,14 @@ session_start();
 
 $erreurs = [
     'login_error' => $_SESSION['login_error'] ?? '',
-    's_inscrire'   => $_SESSION['sinscrire_erreur'] ?? ''
+    's_inscrire'  => $_SESSION['sinscrire_erreur'] ?? ''
 ];
 
 $form_active = $_SESSION['form_active'] ?? 'login-form';
-session_unset();
+
+
+unset($_SESSION['login_error'], $_SESSION['sinscrire_erreur'], $_SESSION['form_active']);
+
 
 function afficher_erreurs($erreur) {
     return !empty($erreur)
@@ -111,7 +114,7 @@ function afficher_erreurs($erreur) {
 
             <?= afficher_erreurs($erreurs['s_inscrire']); ?>
 
-            <form action="auth.php" method="POST" class="space-y-4">
+            <form action="../../actions/auth.php" method="POST" class="space-y-4">
 
                 <input type="text" name="nom" placeholder="Nom complet"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
