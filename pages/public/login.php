@@ -79,12 +79,21 @@ function afficher_erreurs($erreur) {
                 <input type="email" name="email" placeholder="Email"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none text-white">
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
 
                 <input type="password" name="password" placeholder="Mot de passe"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none text-white">
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                <select name="role"
+                        class="w-full px-4 py-3 rounded-lg bg-dark
+                               border border-white/20 text-white
+                               focus:ring-2 focus:ring-accent focus:outline-none" required>
+                    <option value="">Sélectionner un rôle</option>
+                    <option value="admin">Admin</option>
+                    <option value="visiteur">Visiteur</option>
+                    <option value="guide">Guide</option>
+                </select>
 
                 <button name="connecter"
                         class="w-full py-3 rounded-lg bg-accent text-dark
