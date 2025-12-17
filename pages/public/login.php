@@ -7,13 +7,13 @@ $erreurs = [
     'email_error' => $_SESSION['register_errors']['email_error'] ?? '',
     'password_error' => $_SESSION['register_errors']['password_error'] ?? '',
     'email_existe' => $_SESSION['register_errors']['email_existe'] ?? '',
-    'attend_activation' =>  $_SESSION['attend_activation'] ?? ''
+    'attend_activation' => $_SESSION['attend_activation'] ?? ''
 ];
 
 $form_active = $_SESSION['form_active'] ?? 'login-form';
 
 
-unset($_SESSION['login_error'], $_SESSION['sinscrire_erreur'], $_SESSION['form_active'],$_SESSION['register_errors']);
+unset($_SESSION['login_error'], $_SESSION['sinscrire_erreur'], $_SESSION['form_active'],$_SESSION['attend_activation'],$_SESSION['register_errors']);
 
 
 function afficher_erreurs($erreur) {
