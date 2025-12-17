@@ -75,11 +75,10 @@ function afficher_erreurs($erreur) {
             <h2 class="text-2xl font-bold text-center text-accent mb-6">
                 Connexion Zoo ASSAD
             </h2>
-            <?php if (isset($erreurs['attend_activation'])): ?>
+            <?php if (!empty($erreurs['attend_activation'])): ?>
                 <div class="bg-blue-500/20 border border-blue-500 text-blue-200 p-4 rounded-lg mb-6 text-center">
-                    <?= $_SESSION['attend_activation']; ?>
+                    <?= htmlspecialchars($erreurs['attend_activation']); ?>
                 </div>
-                <?php unset($_SESSION['attend_activation']); ?>
             <?php endif; ?>
             <?= afficher_erreurs($erreurs['login_error']); ?>
 

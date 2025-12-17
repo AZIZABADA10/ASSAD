@@ -12,18 +12,12 @@
         $stmt->execute();
         $user = $stmt->get_result()->fetch_assoc();
 
-        if ($user && $user['statut_de_compet'] === 'active') {
-            $is_valid = false;
-
-            if (password_verify($password, $user['mot_de_passe'])) {
-                $is_valid = true;
-            } 
-            elseif ($password === $user['mot_de_passe']) {
-                $is_valid = true;
-            }
-
-            if ($is_valid) {
+       if ($user) {
+        $is_valide = (password_verify($password,$user['mot_de_passe']) || $password === $user['mot_de_passe']);
+        if ($is_valide) {
+            if ($user['statut_de_compet'] === 'active') {
                 $_SESSION['user'] = $user;
+                $user['role'];
 
                 switch ($user['role']) {
                     case 'admin':
@@ -40,24 +34,21 @@
                         break;
                 }
                 exit();
+            }elseif ($user['statut_de_compet'] === 'en_attend') {
+                $_SESSION['attend_activation'] = "Votre compte est en attente d'activation par l'administrateur.";
+            }elseif($user['statut_de_compet'] === 'blocked'){
+                $_SESSION['login_error'] = "Ce compte a été bloqué par l'administration.";
             }
+        }else {
+            $_SESSION['login_error'] = "Mot de passe incorrect.";
         }
-        elseif($user && $user['statut_de_compet'] === 'blocked')
-            {
-                $_SESSION['attend_activation'] = "Votre compte a été créé. Veuillez attendre l'activation par un admin.";            
-                $_SESSION['form_active'] = 'login-form';
-                header('Location: ../pages/public/login.php');
-                exit();
-            }
-        else
-            {
-            $_SESSION['login_error'] = "Email ou mot de passe incorrect";
-            $_SESSION['form_active'] = 'login-form';
-            header('Location: ../pages/public/login.php');
-            exit();
+       }else {
+        $_SESSION['login_error'] = "Aucun compte avec ce email.";
         }
+    $_SESSION['form_active'] = 'login-form';
+    header('Location: ../pages/public/login.php');
+    exit();
 
-        
     }
 
 
