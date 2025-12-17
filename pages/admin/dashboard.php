@@ -56,14 +56,14 @@ if (!isset($_SESSION['user'])) {
   <div class="flex pt-24">
 
     <!-- Sidebar -->
-    <aside class="fixed left-0 top-24 h-[calc(100vh-6rem)] w-64 bg-dark text-white border-r border-white/10">
-      <div class="p-6">
+    <aside class="fixed left-0 top-24 h-[calc(100vh-6rem)]  w-64 bg-dark text-white border-r border-white/10">
+      <div class="p-6 ">
 
         <a href="dashboard.php"
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     font-medium bg-white/10 text-accent
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-dashboard text-xl group-hover:scale-110 transition'></i>
             <span>Page principale</span>
         </a>
@@ -72,7 +72,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group  mb-2">
             <i class='bx bx-community text-xl group-hover:scale-110 transition'></i>
             <span>Utilisateurs</span>
         </a>
@@ -81,7 +81,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group  mb-2">
             <i class='bx bx-paw-print text-xl group-hover:scale-110 transition'></i>
             <span>Animaux</span>
         </a>
@@ -90,7 +90,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group  mb-2">
             <i class='bx bx-home text-xl group-hover:scale-110 transition'></i>
             <span>Habitats</span>
         </a>
@@ -99,7 +99,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group  mb-2">
             <i class='bx bx-chart-line text-xl group-hover:scale-110 transition'></i>
             <span>Statistiques</span>
         </a>

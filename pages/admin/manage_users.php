@@ -1,5 +1,5 @@
 <?php
-
+require_once '../../actions/user_crud.php';
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -62,7 +62,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     font-medium text-white/90
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group  mb-2">
             <i class='bx bx-dashboard text-xl group-hover:scale-110 transition'></i>
             <span>Page principale</span>
         </a>
@@ -71,7 +71,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                      bg-white/10 text-accent font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-community text-xl group-hover:scale-110 transition'></i>
             <span>Utilisateurs</span>
         </a>
@@ -80,7 +80,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-paw-print text-xl group-hover:scale-110 transition'></i>
             <span>Animaux</span>
         </a>
@@ -89,7 +89,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-home text-xl group-hover:scale-110 transition'></i>
             <span>Habitats</span>
         </a>
@@ -98,7 +98,7 @@ if (!isset($_SESSION['user'])) {
             class="flex items-center gap-3 px-4 py-3 rounded-xl
                     text-white/90 font-medium
                     hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group">
+                    transition-all duration-300 group mb-2">
             <i class='bx bx-chart-line text-xl group-hover:scale-110 transition'></i>
             <span>Statistiques</span>
         </a>
@@ -109,10 +109,28 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard</h1>
-
+      <h2 class="text-xl font-bold mb-4">Liste des utilisateurs</h2>
       
-
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="px-4 py-2 border border-gray-300">Nom Complet</th>
+              <th class="px-4 py-2 border border-gray-300">Email</th>
+              <th class="px-4 py-2 border border-gray-300">Statut de compte</th>
+              <th class="px-4 py-2 border border-gray-300">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($user = $users->fetch_assoc()): ?>
+            <tr class="hover:bg-gray-100">
+              <td class="px-4 py-2 border border-gray-300"><?php echo $user['nom_complet']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?php echo $user['email']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?php echo $user['statut_de_compet']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?php echo $user['role']; ?></td>
+            </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
     </main>
 
   </div>
