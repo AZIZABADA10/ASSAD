@@ -3,13 +3,16 @@ session_start();
 
 $erreurs = [
     'login_error' => $_SESSION['login_error'] ?? '',
-    's_inscrire'  => $_SESSION['sinscrire_erreur'] ?? ''
+    's_inscrire'  => $_SESSION['sinscrire_erreur'] ?? '',
+    'email_error' => $_SESSION['register_errors']['email_error'] ?? '',
+    'password_error' => $_SESSION['register_errors']['password_error'] ?? '',
+    'email_existe' => $_SESSION['register_errors']['email_existe'] ?? ''
 ];
 
 $form_active = $_SESSION['form_active'] ?? 'login-form';
 
 
-unset($_SESSION['login_error'], $_SESSION['sinscrire_erreur'], $_SESSION['form_active']);
+unset($_SESSION['login_error'], $_SESSION['sinscrire_erreur'], $_SESSION['form_active'],$_SESSION['register_errors']);
 
 
 function afficher_erreurs($erreur) {
@@ -80,7 +83,7 @@ function afficher_erreurs($erreur) {
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
-
+                
                 <input type="password" name="password" placeholder="Mot de passe"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
@@ -121,29 +124,29 @@ function afficher_erreurs($erreur) {
                 Inscription Zoo ASSAD
             </h2>
 
-            <?= afficher_erreurs($erreurs['s_inscrire']); ?>
-
             <form action="../../actions/auth.php" method="POST" class="space-y-4">
 
                 <input type="text" name="nom" placeholder="Nom complet"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none">
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
 
                 <input type="email" name="email" placeholder="Email"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none">
-
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                    <?= afficher_erreurs($erreurs['email_error']); ?>
+                    <?= afficher_erreurs($erreurs['email_existe']); ?>
                 <input type="password" name="password" placeholder="Mot de passe"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
-                              focus:ring-2 focus:ring-accent focus:outline-none">
-
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                    <?= afficher_erreurs($erreurs['password_error']); ?>
+                    
                 <select name="role"
                         class="w-full px-4 py-3 rounded-lg bg-dark
                                border border-white/20 text-white
-                               focus:ring-2 focus:ring-accent focus:outline-none">
+                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
                     <option value="">Sélectionner un rôle</option>
                     <option value="visiteur">Visiteur</option>
                     <option value="guide">Guide</option>
