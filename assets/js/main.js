@@ -3,3 +3,4 @@ function afficherForm(formId) {
     document.getElementById('s-inscrire-form').classList.add('hidden');
     document.getElementById(formId).classList.remove('hidden');
 }
+

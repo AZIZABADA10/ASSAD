@@ -1,11 +1,14 @@
 <?php
 
 session_start();
+require_once '../../actions/habitats_crud.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
     exit();
 }
+
+
 
 ?>
 <!DOCTYPE html>
@@ -19,6 +22,8 @@ if (!isset($_SESSION['user'])) {
   <link rel="shortcut icon" href="../../assets/images/assad_logo.png" type="image/x-icon">
   <link rel="stylesheet" href="../../assets/css/style.css">
   <link href='https://cdn.boxicons.com/3.0.6/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <script src="https://unpkg.com/heroicons@2.0.18/dist/heroicons.min.js"></script>
+
 </head>
 
 <body class="bg-light text-dark font-sans">
@@ -109,13 +114,46 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <div class="flex justify-between">
+      <div class="flex justify-between mb-4">
         <h2 class="text-xl font-bold mb-4">Gestion des habitats</h2>
         <button
         onclick="afficher_modal('habitatModalAdd')"
          class="bg-red-700 text-white px-4 rounded-full font-semibold hover:scale-105 transition-all"
         >Ajouter habitat</button>
       </div>
+              <table class="w-full text-left border-collapse">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="px-4 py-2 border border-gray-300">ID</th>
+              <th class="px-4 py-2 border border-gray-300">Nom Habitat</th>
+              <th class="px-4 py-2 border border-gray-300">Description</th>
+              <th class="px-4 py-2 border border-gray-300">Type climat</th>
+              <th class="px-4 py-2 border border-gray-300">zonezoo</th>
+              <th class="px-4 py-2 border border-gray-300">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($habitat = $habitats->fetch_assoc()): ?>
+            <tr class="hover:bg-gray-100">
+              <td class="px-4 py-2 border border-gray-300"><?= $habitat['id_habitat']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $habitat['nom_habitat']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $habitat['description_habitat']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $habitat['type_climat']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $habitat['zonezoo']; ?></td>
+              <td class="px-4 py-2 border border-gray-300">
+              <div class="flex gap-3">
+              <a href="../../actions/modifier_habitat.php?id=<?= $habitat['id_habitat']; ?>" >
+                  <i class='bxr  bx-edit' style='color:#068b00'></i> 
+              </a>
+                  <a href="../../actions/habitats_crud.php?supprimer=<?= $habitat['id_habitat']; ?>"
+                    onclick="return confirm('Vous voullez vrément supprimer cet habitat ?');">
+                  <i class='bxr  bx-trash' style='color:#fa0d0d'></i> 
+              </a>  
+              </td>
+            </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
 
     </main>
 
@@ -130,7 +168,7 @@ if (!isset($_SESSION['user'])) {
         <i class="fas fa-times"></i>
       </button>
     </div>
-    <form method="POST" action="actions/ajouter_habitat.php">
+    <form action="../../actions/habitats_crud.php" method="POST">
       <label class="text-white/70">Nom de l'habitat</label>
       <input type="text" name="nom_habitat" required 
       class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
@@ -169,6 +207,7 @@ if (!isset($_SESSION['user'])) {
     </form>
   </div>
 </div>
+
 
   <script>
     function afficher_modal(id_modal){

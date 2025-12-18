@@ -81,7 +81,7 @@
 
 
         if (empty($erreurs)) {
-            $password_hache = password_hash($password,PASSWORD_BCRYPT);
+            $password_hache = password_hash($password,PASSWORD_DEFAULT);
             $stmt = $connexion -> prepare("INSERT INTO utilisateurs (nom_complet,mot_de_passe,email,`role`,statut_de_compet)
             VALUES (?,?,?,?,?)");
             $statut_de_compet = 'active';
