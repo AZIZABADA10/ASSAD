@@ -1,6 +1,12 @@
 <?php
 
 session_start();
+
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    header('Location: ../pages/public/login.php');
+    exit();
+}
+
 require_once __DIR__ .'/../config/db.php';
 
 
@@ -37,9 +43,9 @@ if (isset($_POST['ajouter_user'])) {
             $stmt = $connexion -> prepare("INSERT INTO utilisateurs (nom_complet,mot_de_passe,email,`role`,statut_de_compet)
             VALUES (?,?,?,?,?)");
             $statut_de_compet = 'active';
-            if ( $role === 'guide') {
-                $statut_de_compet = 'en_attend';  
-            }
+            if ($role === 'guide') {
+                    $statut_de_compet = 'en_attente';
+                }
             $stmt -> bind_param('sssss',$nom,$password_hache,$email,$role,$statut_de_compet);
                 $stmt->execute();
                 $_SESSION['success'] = "Inscription réussie ! Connectez-vous.";
