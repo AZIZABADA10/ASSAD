@@ -109,7 +109,7 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard</h1>
+      <h2 class="text-xl font-bold mb-4">Gestion des animaux</h2>
 
       
 

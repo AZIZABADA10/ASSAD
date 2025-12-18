@@ -109,11 +109,12 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h2 class="text-xl font-bold mb-4">Liste des utilisateurs</h2>
+      <h2 class="text-xl font-bold mb-4">Gestion des utilisateurs</h2>
       
         <table class="w-full text-left border-collapse">
           <thead class="bg-gray-200">
             <tr>
+              <th class="px-4 py-2 border border-gray-300">ID</th>
               <th class="px-4 py-2 border border-gray-300">Nom Complet</th>
               <th class="px-4 py-2 border border-gray-300">Email</th>
               <th class="px-4 py-2 border border-gray-300">Statut de compte</th>
@@ -123,10 +124,22 @@ if (!isset($_SESSION['user'])) {
           <tbody>
             <?php while ($user = $users->fetch_assoc()): ?>
             <tr class="hover:bg-gray-100">
-              <td class="px-4 py-2 border border-gray-300"><?php echo $user['nom_complet']; ?></td>
-              <td class="px-4 py-2 border border-gray-300"><?php echo $user['email']; ?></td>
-              <td class="px-4 py-2 border border-gray-300"><?php echo $user['statut_de_compet']; ?></td>
-              <td class="px-4 py-2 border border-gray-300"><?php echo $user['role']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $user['id_utilisateur']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $user['nom_complet']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $user['email']; ?></td>
+              <td class="px-4 py-2 border border-gray-300">
+                 <form  action="../../actions/user_crud.php?id=<?= $user['id_utilisateur'];?>" method="POST" class="flex justify-around">
+                  <select <?= $user['role']==='admin'?'disabled':''?> name="statut_de_compet">
+                  <option value="active" <?= $user['statut_de_compet']==='active'?'selected':''?>>Active</option>
+                  <option value="en_attend" <?= $user['statut_de_compet']==='en_attend'?'selected':''?>>En attend</option>
+                  <option value="blocked" <?= $user['statut_de_compet']==='blocked'?'selected':''?> >Blocked</option>
+                </select>
+                <button type="submit" name="changer_status"
+                class="bg-red-500 text-white px-2 py-1 rounded font-semibold hover:scale-105 transition-all" 
+                >Changer Statut</button>
+                 </form>
+              </td>
+              <td class="px-4 py-2 border border-gray-300"><?= $user['role']; ?></td>
             </tr>
             <?php endwhile; ?>
           </tbody>
