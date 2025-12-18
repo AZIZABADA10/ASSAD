@@ -168,7 +168,7 @@ if (!isset($_SESSION['user'])) {
             <h2 class="text-2xl font-bold text-center text-accent mb-6">
                 Ajouter user
             </h2>
-            <form action="../../actions/auth.php" method="POST" class="space-y-4">
+            <form action="../../actions/user_crud.php" method="POST" class="space-y-4">
                 <input type="text" name="nom" placeholder="Nom complet"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
@@ -189,7 +189,7 @@ if (!isset($_SESSION['user'])) {
                     <option value="visiteur">Visiteur</option>
                     <option value="guide">Guide</option>
                 </select>
-                <button name="inscrire"
+                <button name="ajouter_user"
                         class="w-full py-3 rounded-lg bg-accent text-dark
                                font-semibold hover:opacity-90 transition">
                    Ajouter
