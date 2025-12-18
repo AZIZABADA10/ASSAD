@@ -1,10 +1,11 @@
 <?php
 
-    require_once __DIR__ .'/../config/db.php';
+session_start();
+require_once __DIR__ .'/../config/db.php';
 
-    $users = $connexion -> query("SELECT * FROM utilisateurs order by id_utilisateur desc");
 
-   if (isset($_POST['ajouter_user'])) {
+
+if (isset($_POST['ajouter_user'])) {
         $erreurs = [];
         $nom= $_POST['nom'];
         $email= $_POST['email'];
@@ -47,12 +48,11 @@
                 exit();
         }else{
             $_SESSION['register_errors'] = $erreurs;
-            $_SESSION['form_active'] = 's-inscrire-form';
-            header('Location: ../pages/admin/manage_users.php');
+            header('Location: ../pages/admin/manage_users.php?modal=s-inscrire-form');
             exit();
         }
 
-    }
+}
 
 
 

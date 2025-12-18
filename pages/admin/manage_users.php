@@ -1,6 +1,33 @@
 <?php
-require_once '../../actions/user_crud.php';
 session_start();
+
+require_once '../../config/db.php';
+
+$users = $connexion -> query("SELECT * FROM utilisateurs order by id_utilisateur desc");
+
+
+$erreurs = [
+    'email_error' => $_SESSION['register_errors']['email_error'] ?? '',
+    'password_error' => $_SESSION['register_errors']['password_error'] ?? '',
+    'email_existe' => $_SESSION['register_errors']['email_existe'] ?? ''
+];
+
+unset($_SESSION['register_errors']);
+
+function afficher_erreurs($erreur) {
+    return !empty($erreur)
+        ? "<p class='bg-red-500/20 border border-red-500 text-red-300 px-4 py-2 rounded-lg text-sm mb-4'>$erreur</p>"
+        : '';
+}
+
+if (isset($_GET['modal']) && $_GET['modal'] === 's-inscrire-form') {
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            afficher_modal('s-inscrire-form');
+        });
+    </script>";
+}
+
 
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
@@ -177,10 +204,13 @@ if (!isset($_SESSION['user'])) {
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                              <?= afficher_erreurs($erreurs['email_existe']); ?>
+                              <?= afficher_erreurs($erreurs['email_error']); ?>
                 <input type="password" name="password" placeholder="Mot de passe"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                              <?= afficher_erreurs($erreurs['password_error']); ?>
                 <select name="role"
                         class="w-full px-4 py-3 rounded-lg bg-dark
                                border border-white/20 text-white
@@ -194,7 +224,7 @@ if (!isset($_SESSION['user'])) {
                                font-semibold hover:opacity-90 transition">
                    Ajouter
                 </button>
-                <button onclick="masquer_modal('s-inscrire-form')"
+                <button type="button" onclick="masquer_modal('s-inscrire-form')"
                         class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold hover:opacity-90 transition">
                    Annuler
                 </button>
