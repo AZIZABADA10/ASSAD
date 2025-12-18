@@ -142,7 +142,7 @@ if (!isset($_SESSION['user'])) {
               <td class="px-4 py-2 border border-gray-300"><?= $habitat['zonezoo']; ?></td>
               <td class="px-4 py-2 border border-gray-300">
               <div class="flex gap-3">
-              <a href="../../actions/habitats_crud.php?id=<?= $habitat['id_habitat']; ?>" >
+              <a href="../../actions/modifier_habitat.php?id=<?= $habitat['id_habitat']; ?>" >
                   <i class='bxr  bx-edit' style='color:#068b00'></i> 
               </a>
               <a href="../../actions/habitats_crud.php?supprimer=<?= $habitat['id_habitat']; ?>">
@@ -206,6 +206,7 @@ if (!isset($_SESSION['user'])) {
     </form>
   </div>
 </div>
+
 
   <script>
     function afficher_modal(id_modal){
