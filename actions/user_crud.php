@@ -20,5 +20,13 @@
         exit();
     }
 
+    if(isset($_GET['id_supprimer'])){
+        $id = intval($_GET['id_supprimer']);
+        $stmt = $connexion -> prepare("DELETE FROM utilisateurs WHERE id_utilisateur =?");
+        $stmt ->bind_param('i',$id);
+        $stmt ->execute();
+        header('Location: ../pages/admin/manage_users.php');
+        exit();
+    }
 
 ?>

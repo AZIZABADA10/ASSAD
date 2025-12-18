@@ -109,7 +109,13 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h2 class="text-xl font-bold mb-4">Gestion des utilisateurs</h2>
+      <div class="flex justify-between mb-4">
+        <h2 class="text-xl font-bold mb-4">Gestion des utilisateurs</h2>
+        <button
+        onclick="afficher_modal('s-inscrire-form')"
+         class="bg-red-700 text-white px-4 rounded-full font-semibold hover:scale-105 transition-all"
+        >Ajouter utilisateur</button>
+      </div>
       
         <table class="w-full text-left border-collapse">
           <thead class="bg-gray-200">
@@ -119,6 +125,7 @@ if (!isset($_SESSION['user'])) {
               <th class="px-4 py-2 border border-gray-300">Email</th>
               <th class="px-4 py-2 border border-gray-300">Statut de compte</th>
               <th class="px-4 py-2 border border-gray-300">Role</th>
+              <th class="px-4 py-2 border border-gray-300">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -140,13 +147,69 @@ if (!isset($_SESSION['user'])) {
                  </form>
               </td>
               <td class="px-4 py-2 border border-gray-300"><?= $user['role']; ?></td>
+              <td class="px-4 py-2 border border-gray-300">
+                <div class="flex justify-between">
+                  <a href="../../actions/user_crud.php?id_supprimer=<?= $user['id_utilisateur'] ?>" 
+                onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')"
+                >  <i class='bxr  bx-trash' style='color:#fa0d0d'></i></a>
+                <a href="../../actions/user_crud.php?id=<?= $user['id_utilisateur']; ?>" >
+                  <i class='bxr  bx-edit' style='color:#068b00'></i> 
+              </a>
+                </div>
+              </td>
             </tr>
             <?php endwhile; ?>
           </tbody>
         </table>
     </main>
+<div id="s-inscrire-form"  class="hidden fixed inset-0 z-50 flex justify-center items-center bg-dark/90 backdrop-blur-lg">
+            <div class="z-60 bg-dark/90 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-8">
+
+            <h2 class="text-2xl font-bold text-center text-accent mb-6">
+                Ajouter user
+            </h2>
+            <form action="../../actions/auth.php" method="POST" class="space-y-4">
+                <input type="text" name="nom" placeholder="Nom complet"
+                       class="w-full px-4 py-3 rounded-lg bg-transparent
+                              border border-white/20 placeholder-gray-400
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                <input type="email" name="email" placeholder="Email"
+                       class="w-full px-4 py-3 rounded-lg bg-transparent
+                              border border-white/20 placeholder-gray-400
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                <input type="password" name="password" placeholder="Mot de passe"
+                       class="w-full px-4 py-3 rounded-lg bg-transparent
+                              border border-white/20 placeholder-gray-400
+                              focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                <select name="role"
+                        class="w-full px-4 py-3 rounded-lg bg-dark
+                               border border-white/20 text-white
+                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                    <option value="">Sélectionner un rôle</option>
+                    <option value="visiteur">Visiteur</option>
+                    <option value="guide">Guide</option>
+                </select>
+                <button name="inscrire"
+                        class="w-full py-3 rounded-lg bg-accent text-dark
+                               font-semibold hover:opacity-90 transition">
+                   Ajouter
+                </button>
+                <button onclick="masquer_modal('s-inscrire-form')"
+                        class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold hover:opacity-90 transition">
+                   Annuler
+                </button>
+            </form>
+        </div>
+</div>
 
   </div>
-
+              <script>
+                function afficher_modal(id_modal){
+                  document.getElementById(id_modal).classList.remove('hidden');
+                }
+                function masquer_modal(id_modal){
+                  document.getElementById(id_modal).classList.add('hidden');
+                }
+              </script>
 </body>
 </html>
