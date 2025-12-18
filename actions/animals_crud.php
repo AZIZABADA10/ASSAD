@@ -24,5 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'],$_POST['habitat
 
 }
 
+if (isset($_GET['supprimer'])) {
+    $id = $_GET['supprimer'];
+    $requet_sup = "DELETE FROM animal where id ='$id'";
+    $connexion -> query($requet_sup);
+    header("Location: ../index.php");
+    exit();
+}
+
 
 ?>
