@@ -24,7 +24,7 @@ if (!isset($_SESSION['user'])) {
 <body class="bg-light text-dark font-sans">
 
   <!-- Header -->
-  <header class="fixed top-0 w-full z-50 bg-dark/90 backdrop-blur-md border-b border-white/10">
+  <header class="fixed top-0 w-full z-30 bg-dark/90 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4 text-white">
         <div class="flex items-center gap-3 group cursor-pointer">
             <div class="relative w-15 h-16">
@@ -122,36 +122,54 @@ if (!isset($_SESSION['user'])) {
   </div>
 
 
-  <div id="habitatModalAdd" class="modal fixed w-400 ">
-            <div class="modal-content bg-white p-8 rounded-2xl">
+<div id="habitatModalAdd" class="hidden fixed inset-0 z-50 flex justify-center items-center bg-dark/90 backdrop-blur-lg">
+  <div class="modal w-[700px] bg-dark/80 border border-white/10 rounded-2xl shadow-2xl p-8">
+    <div class="flex justify-between">
+      <h2 class="text-2xl font-bold mb-4 text-accent">Ajouter un Habitat</h2>
+      <button onclick="Masquer_modal('habitatModalAdd')" class="text-gray-500 text-xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <form method="POST" action="actions/ajouter_habitat.php">
+      <label class="text-white/70">Nom de l'habitat</label>
+      <input type="text" name="nom_habitat" required 
+      class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+      <label class="text-white/70">Type de climat</label>
+       <select name="type_climat" required class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+        <option 
+        class="w-full px-4 py-3 rounded-lg bg-transparent border text-white"
+        value="">Sélectionner un type de climat</option>
+        <option 
+        class="bg-red border text-black"
+        value="Tropical">Tropical</option>
+        <option 
+        class="w-full px-4 py-3 rounded-lg bg-transparent border text-black"
+        value="Tempéré">Tempéré</option>
+        <option 
+        class="w-full px-4 py-3 rounded-lg bg-transparent border text-black"
+        value="Désertique">Désertique</option>
+        <option 
+        class="w-full px-4 py-3 rounded-lg bg-transparent border text-black"
+        value="Montagneux">Montagneux</option>
+        
+      </select> 
+      <label class="text-white/70">Zone zoo</label>
+      <input type="text" name="zonezoo" required 
+      class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20  placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+      <label class="text-white/70">Description</label>
+      <textarea name="description_habitat" required class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white"></textarea>
+      <div>
+        <button type="submit" name="ajouter_habitat" class="w-full py-3 rounded-lg bg-accent text-dark font-semibold hover:opacity-90 transition">
+          Ajouter
+        </button>
+        <button onclick="Masquer_modal('habitatModalAdd')" class="w-full mt-2 py-3 rounded-lg bg-transparent border border-white/20 text-white hover:bg-white/10 transition">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
-                <div class="flex justify-between">
-                    <h2 class="text-2xl font-bold mb-4">Ajouter un Habitat</h2>
-                <button onclick="Masquer_modal('habitatModalAdd')" class="text-gray-500 text-xl">
-                    <i class="fas fa-times"></i>
-                </button>
-                </div>
-
-                <form method="POST" action="actions/ajouter_habitat.php">
-                    <label>Nom de l'habitat</label>
-                    <input type="text" name="nom_habitat" required class="w-full border p-3 rounded mb-4">
-
-                    <label>Description</label>
-                    <textarea name="description_habitat" required class="w-full border p-3 rounded mb-4"></textarea>
-
-                    <div>
-                      <button type="submit" name="ajouter_habitat"
-                        class="w-full bg-green-600 text-white py-3 rounded-xl">
-                        Ajouter
-                    </button>
-                    <button
-                    onclick="Masquer_modal('habitatModalAdd')"
-                    class="w-full mt-2 bg-red-600 text-white py-3 rounded-xl"
-                    >Annulé</button>
-                    </div>
-                </form>
-
-            </div>
   <script>
     function afficher_modal(id_modal){
       document.getElementById(id_modal).classList.remove('hidden');
