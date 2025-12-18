@@ -119,6 +119,7 @@ if (!isset($_SESSION['user'])) {
               <th class="px-4 py-2 border border-gray-300">Email</th>
               <th class="px-4 py-2 border border-gray-300">Statut de compte</th>
               <th class="px-4 py-2 border border-gray-300">Role</th>
+              <th class="px-4 py-2 border border-gray-300">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -140,6 +141,11 @@ if (!isset($_SESSION['user'])) {
                  </form>
               </td>
               <td class="px-4 py-2 border border-gray-300"><?= $user['role']; ?></td>
+              <td class="px-4 py-2 border border-gray-300">
+                <a href="../../actions/user_crud.php?id_supprimer=<?= $user['id_utilisateur'] ?>" 
+                onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')"
+                >  <i class='bxr  bx-trash' style='color:#fa0d0d'></i></a>
+              </td>
             </tr>
             <?php endwhile; ?>
           </tbody>

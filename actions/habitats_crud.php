@@ -22,13 +22,13 @@ if (isset($_POST['ajouter_habitat'])) {
 if (isset($_GET['supprimer'])) {
     $id = intval($_GET['supprimer']);
 
-    $check = $connexion->query("SELECT COUNT(*) AS total FROM animal WHERE id_habitat = $id");
-    $row = $check->fetch_assoc();
+    // $check = $connexion->query("SELECT COUNT(*) AS total FROM animal WHERE id_habitat = $id");
+    // $row = $check->fetch_assoc();
 
-    if ($row['total'] > 0) {
-        header("Location: ../index.php?error=habitat_utilisé");
-        exit();
-    }
+    // if ($row['total'] > 0) {
+    //     header("Location: ../index.php?error=habitat_utilisé");
+    //     exit();
+    // }
 
     $sql = "DELETE FROM habitats WHERE id_habitat = ?";
     $stmt = $connexion->prepare($sql);
