@@ -128,11 +128,11 @@ if (!isset($_SESSION['user'])) {
               <td class="px-4 py-2 border border-gray-300"><?= $user['nom_complet']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $user['email']; ?></td>
               <td class="px-4 py-2 border border-gray-300">
-                 <form action="../../actions/user_crud.php?id=<?= $user['id_utilisateur'];?>" method="POST" class="flex justify-around">
-                  <select name="statut_de_compet">
+                 <form  action="../../actions/user_crud.php?id=<?= $user['id_utilisateur'];?>" method="POST" class="flex justify-around">
+                  <select <?= $user['role']==='admin'?'disabled':''?> name="statut_de_compet">
                   <option value="active" <?= $user['statut_de_compet']==='active'?'selected':''?>>Active</option>
                   <option value="en_attend" <?= $user['statut_de_compet']==='en_attend'?'selected':''?>>En attend</option>
-                  <option value="blocked" <?= $user['statut_de_compet']==='blocked'?'selected':''?>>Blocked</option>
+                  <option value="blocked" <?= $user['statut_de_compet']==='blocked'?'selected':''?> >Blocked</option>
                 </select>
                 <button type="submit" name="changer_status"
                 class="bg-red-500 text-white px-2 py-1 rounded font-semibold hover:scale-105 transition-all" 
