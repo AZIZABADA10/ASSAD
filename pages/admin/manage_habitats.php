@@ -109,13 +109,57 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard</h1>
-
-      
+      <div class="flex justify-between">
+        <h2 class="text-xl font-bold mb-4">Gestion des habitats</h2>
+        <button
+        onclick="afficher_modal('habitatModalAdd')"
+         class="bg-red-700 text-white px-4 rounded-full font-semibold hover:scale-105 transition-all"
+        >Ajouter habitat</button>
+      </div>
 
     </main>
 
   </div>
 
+
+  <div id="habitatModalAdd" class="modal fixed w-400 ">
+            <div class="modal-content bg-white p-8 rounded-2xl">
+
+                <div class="flex justify-between">
+                    <h2 class="text-2xl font-bold mb-4">Ajouter un Habitat</h2>
+                <button onclick="Masquer_modal('habitatModalAdd')" class="text-gray-500 text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+                </div>
+
+                <form method="POST" action="actions/ajouter_habitat.php">
+                    <label>Nom de l'habitat</label>
+                    <input type="text" name="nom_habitat" required class="w-full border p-3 rounded mb-4">
+
+                    <label>Description</label>
+                    <textarea name="description_habitat" required class="w-full border p-3 rounded mb-4"></textarea>
+
+                    <div>
+                      <button type="submit" name="ajouter_habitat"
+                        class="w-full bg-green-600 text-white py-3 rounded-xl">
+                        Ajouter
+                    </button>
+                    <button
+                    onclick="Masquer_modal('habitatModalAdd')"
+                    class="w-full mt-2 bg-red-600 text-white py-3 rounded-xl"
+                    >Annulé</button>
+                    </div>
+                </form>
+
+            </div>
+  <script>
+    function afficher_modal(id_modal){
+      document.getElementById(id_modal).classList.remove('hidden');
+      // console.log("test function afficher modal!");
+    }
+    function Masquer_modal(id_modal){
+      document.getElementById(id_modal).classList.add('hidden');
+    }
+  </script>
 </body>
 </html>

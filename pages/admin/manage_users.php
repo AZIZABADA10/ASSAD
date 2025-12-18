@@ -109,7 +109,7 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h2 class="text-xl font-bold mb-4">Liste des utilisateurs</h2>
+      <h2 class="text-xl font-bold mb-4">Gestion des utilisateurs</h2>
       
         <table class="w-full text-left border-collapse">
           <thead class="bg-gray-200">
