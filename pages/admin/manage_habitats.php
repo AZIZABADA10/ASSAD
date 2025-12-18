@@ -145,7 +145,8 @@ if (!isset($_SESSION['user'])) {
               <a href="../../actions/modifier_habitat.php?id=<?= $habitat['id_habitat']; ?>" >
                   <i class='bxr  bx-edit' style='color:#068b00'></i> 
               </a>
-              <a href="../../actions/habitats_crud.php?supprimer=<?= $habitat['id_habitat']; ?>">
+                  <a href="../../actions/habitats_crud.php?supprimer=<?= $habitat['id_habitat']; ?>"
+                    onclick="return confirm('Vous voullez vrément supprimer cet habitat ?');">
                   <i class='bxr  bx-trash' style='color:#fa0d0d'></i> 
               </a>  
               </td>

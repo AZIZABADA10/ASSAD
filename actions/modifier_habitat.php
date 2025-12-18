@@ -17,20 +17,23 @@ if ($id) {
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $habitat = $stmt->get_result()->fetch_assoc();
+    
 }
 
 if (isset($_POST['modifier_habitat'])) {
     $id = $_GET['id'];
     $nom = $_POST['nom_habitat'];
     $description = $_POST['description_habitat'];
+    $type_climat = $_POST['type_climat'];
+    $zonezoo = $_POST['zonezoo'];
 
-    $sql = "UPDATE habitats SET nom_habitat=?, description_habitat=? WHERE id_habitat=?";
+    $sql = "UPDATE habitats SET nom_habitat=?,type_climat=?,zonezoo=?,description_habitat=? WHERE id_habitat=?";
     $stmt = $connexion->prepare($sql);
-    $stmt->bind_param("ssi", $nom, $description, $id);
+    $stmt->bind_param("ssssi",$nom,$type_climat,$zonezoo,$description,$id);
 
     if ($stmt->execute()) {
         // var_dump($sql);
-        echo "<script>alert('Habitat modifié avec succès !'); window.location.href='../pages/admin/manage_habitats.php';</script>";
+        echo "<script> window.location.href='../pages/admin/manage_habitats.php';</script>";
         exit();
     }
 }
@@ -141,31 +144,28 @@ if (isset($_POST['modifier_habitat'])) {
 <div id="habitat_update_habitat" class="fixed inset-0 z-50 flex justify-center items-center bg-dark/90 backdrop-blur-lg">
   <div class="modal w-[700px] bg-dark/80 border border-white/10 rounded-2xl shadow-2xl p-8">
     <div class="flex justify-between">
-      <h2 class="text-2xl font-bold mb-4 text-accent">Modifier un Habitat</h2>
-      <button onclick="Masquer_modal('habitat_update_habitat')" class="text-gray-500 text-xl">
-        <i class="fas fa-times"></i>
-      </button>
+      <h2 class="text-2xl font-bold mb-4 text-accent">Modifier un Habitat <?php var_dump($habitat);?></h2>
     </div>
-    <form action="habitats_crud.php" method="POST">
+    <form action="modifier_habitat.php?id=<?= $habitat['id_habitat'] ?>" method="POST">
       <label class="text-white/70">Nom de l'habitat</label>
       <input type="text" name="nom_habitat" required value="<?= $habitat['nom_habitat'] ?>" 
       class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <label class="text-white/70">Type de climat</label>
        <select name="type_climat" required class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
         <option 
-        class="w-full px-4 py-3 rounded-lg bg-transparent border text-white"
-        value="">Sélectionner un type de climat</option>
+        class="bg-dark text-white"
+        value="" class="bg-dark text-white">Sélectionner un type de climat</option>
         <option 
-        class="bg-red border text-black"
+        class="bg-dark text-white"
         value="Tropical" <?= $habitat['type_climat']==='Tropical'?'selected':'' ?> >Tropical</option>
         <option 
-        class="w-full px-4 py-3 rounded-lg bg-transparent border text-black"
+        class="bg-dark text-white"
         value="Tempéré" <?= $habitat['type_climat']==='Tempéré'?'selected':'' ?>>Tempéré</option>
         <option 
-        class="w-full px-4 py-3 rounded-lg bg-transparent border text-black"
+        class="bg-dark text-white"
         value="Désertique" <?= $habitat['type_climat']==='Désertique'?'selected':'' ?>>Désertique</option>
         <option 
-        class="w-full px-4 py-3 rounded-lg bg-transparent border text-black"
+        class="bg-dark text-white"
         value="Montagneux" <?= $habitat['type_climat']==='Montagneux'?'selected':'' ?>>Montagneux</option>
         
       </select> 
@@ -173,9 +173,10 @@ if (isset($_POST['modifier_habitat'])) {
       <input type="text" name="zonezoo" required value="<?= $habitat['zonezoo'] ?>" 
       class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20  placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <label class="text-white/70">Description</label>
-      <textarea name="description_habitat" required class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white"><?= $habitat['description_habitat'] ?></textarea>
+      <textarea name="description_habitat" required class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+        <?= $habitat['description_habitat'] ?></textarea>
       <div>
-        <button type="submit" name="ajouter_habitat" class="w-full mb-4 py-3 rounded-lg bg-accent text-dark font-semibold hover:opacity-90 transition">
+        <button type="submit" name="modifier_habitat" class="w-full mb-4 py-3 rounded-lg bg-accent text-dark font-semibold hover:opacity-90 transition">
           Modifier
         </button>
         <a href="../pages/admin/manage_habitats.php" class="w-full px-[288px] mt-2 py-3 rounded-lg bg-transparent border border-white/20 text-white hover:bg-white/10 transition">
