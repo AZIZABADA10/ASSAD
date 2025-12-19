@@ -2,7 +2,7 @@
 
     require_once __DIR__ .'/../config/db.php';
 
-$habitats = $connexion -> query("SELECT * FROM habitats");
+$habitats = $connexion -> query("SELECT * FROM habitats ORDER BY id_habitat DESC");
 
 
 if (isset($_POST['ajouter_habitat'])) {

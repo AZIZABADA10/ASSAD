@@ -11,8 +11,8 @@ if (!isset($_SESSION['user'])) {
 
  
 
-$habitats = $connexion -> query("SELECT * FROM habitats");
-$aminaux = $connexion -> query("SELECT * FROM animal");
+$habitats = $connexion -> query("SELECT * FROM habitats ORDER BY id_habitat DESC");
+$aminaux = $connexion -> query("SELECT * FROM animal ORDER BY id_animal DESC");
 
 ?>
 <!DOCTYPE html>
@@ -156,7 +156,7 @@ $aminaux = $connexion -> query("SELECT * FROM animal");
               <td class="px-4 py-2 border border-gray-300"><?= $animal['nom']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['espace']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['alimentation']; ?></td>
-              <td class="px-4 py-2 border border-gray-300"><img src="<?= $animal['image_animal']; ?>" alt="image_animal"></td>
+              <td class="px-4 py-2 border border-gray-300"><img src="../../actions/uploads/<?= $animal['image_animal']; ?>" class="w-20 h-16 object-cover rounded"></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['pays_origine']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['description_courte']; ?></td>
               <td class="px-4 py-2 border border-gray-300" >
