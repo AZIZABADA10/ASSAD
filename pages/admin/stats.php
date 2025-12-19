@@ -218,7 +218,6 @@ $animaux_alimentation = $connexion->query("
 
   </div>
 
-  <!-- ================= ALIMENTATION ================= -->
 <h3 class="text-xl lg:text-2xl font-bold mb-6 flex items-center gap-2 text-gray-800">
   <i class='bx bx-food-menu text-green-500'></i>
   Animaux par type alimentaire
@@ -226,12 +225,11 @@ $animaux_alimentation = $connexion->query("
 
 <?php
 $max = 0;
-$animaux_alimentation->data_seek(0); // remettre le pointeur au début
+$animaux_alimentation->data_seek(0); 
 while($row_tmp = $animaux_alimentation->fetch_assoc()){
     if($row_tmp['total'] > $max) $max = $row_tmp['total'];
 }
-$animaux_alimentation->data_seek(0); // remettre le pointeur au début pour l'affichage
-
+$animaux_alimentation->data_seek(0); 
 $colors = [
   'Herbivore' => 'bg-green-500',
   'Carnivore' => 'bg-red-500',
@@ -245,14 +243,11 @@ $colors = [
     <?php 
       $type = ucfirst($row['alimentation']);
       $color = $colors[$type] ?? 'bg-gray-500';
-      $percent = ($row['total'] / $max) * 100; // calcul du pourcentage
+      $percent = ($row['total'] / $max) * 100; 
     ?>
     <div class="flex items-center gap-4">
-      
-      <!-- Label -->
+
       <span class="w-32 text-gray-700 font-medium"><?= $type ?></span>
-      
-      <!-- Barre de progression -->
       <div class="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden relative">
         <div class="<?= $color ?> h-full rounded-full transition-all duration-1000" 
              style="width: <?= $percent ?>%;"></div>
