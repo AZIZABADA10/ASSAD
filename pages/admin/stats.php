@@ -149,119 +149,118 @@ $animaux_alimentation = $connexion->query("
         </nav>
       </div>
     </aside>
-    <main>   
-    <main class="ml-64 w-full p-10">
+ 
+<main class="ml-64 w-full p-6 lg:p-8">
 
   <!-- TITRE -->
-  <h2 class="text-3xl font-extrabold mb-10 flex items-center gap-3">
-    <i class='bx bx-chart text-accent'></i>
+  <h2 class="text-2xl lg:text-3xl font-bold mb-8 flex items-center gap-3 text-gray-800">
+    <i class='bx bx-chart text-blue-500'></i>
     Statistiques générales
   </h2>
 
   <!-- ================= CARTES PRINCIPALES ================= -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-12">
 
     <!-- Utilisateurs -->
-    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700
-                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+    <div class="group relative p-5 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600
+                text-white shadow-lg hover:shadow-xl hover:-translate-y-1
                 transition-all duration-300">
-      <i class='bx bx-user text-6xl opacity-20 absolute right-6 bottom-6'></i>
-      <p class="text-5xl font-black"><?= $total_users ?></p>
-      <span class="text-lg font-semibold mt-2 block">Utilisateurs</span>
+      <i class='bx bx-user text-5xl opacity-10 absolute right-4 bottom-4'></i>
+      <p class="text-3xl font-bold"><?= $total_users ?></p>
+      <span class="text-sm font-medium mt-1 block opacity-90">Utilisateurs</span>
     </div>
 
     <!-- Admin -->
-    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-red-500 to-red-700
-                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+    <div class="group relative p-5 rounded-xl bg-gradient-to-br from-red-500 to-red-600
+                text-white shadow-lg hover:shadow-xl hover:-translate-y-1
                 transition-all duration-300">
-      <i class='bx bx-shield-quarter text-6xl opacity-20 absolute right-6 bottom-6'></i>
-      <p class="text-5xl font-black"><?= $total_admin ?></p>
-      <span class="text-lg font-semibold mt-2 block">Admins</span>
+      <i class='bx bx-shield-quarter text-5xl opacity-10 absolute right-4 bottom-4'></i>
+      <p class="text-3xl font-bold"><?= $total_admin ?></p>
+      <span class="text-sm font-medium mt-1 block opacity-90">Admins</span>
     </div>
 
     <!-- Guides -->
-    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-green-500 to-green-700
-                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+    <div class="group relative p-5 rounded-xl bg-gradient-to-br from-green-500 to-green-600
+                text-white shadow-lg hover:shadow-xl hover:-translate-y-1
                 transition-all duration-300">
-      <i class='bx bx-map text-6xl opacity-20 absolute right-6 bottom-6'></i>
-      <p class="text-5xl font-black"><?= $total_guide ?></p>
-      <span class="text-lg font-semibold mt-2 block">Guides</span>
+      <i class='bx bx-map text-5xl opacity-10 absolute right-4 bottom-4'></i>
+      <p class="text-3xl font-bold"><?= $total_guide ?></p>
+      <span class="text-sm font-medium mt-1 block opacity-90">Guides</span>
     </div>
 
     <!-- Visiteurs -->
-    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600
-                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+    <div class="group relative p-5 rounded-xl bg-gradient-to-br from-yellow-400 to-yellow-500
+                text-white shadow-lg hover:shadow-xl hover:-translate-y-1
                 transition-all duration-300">
-      <i class='bx bx-group text-6xl opacity-20 absolute right-6 bottom-6'></i>
-      <p class="text-5xl font-black"><?= $total_visiteur ?></p>
-      <span class="text-lg font-semibold mt-2 block">Visiteurs</span>
+      <i class='bx bx-group text-5xl opacity-10 absolute right-4 bottom-4'></i>
+      <p class="text-3xl font-bold"><?= $total_visiteur ?></p>
+      <span class="text-sm font-medium mt-1 block opacity-90">Visiteurs</span>
     </div>
 
     <!-- Animaux -->
-    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700
-                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+    <div class="group relative p-5 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600
+                text-white shadow-lg hover:shadow-xl hover:-translate-y-1
                 transition-all duration-300">
-      <i class='bx bx-paw text-6xl opacity-20 absolute right-6 bottom-6'></i>
-      <p class="text-5xl font-black"><?= $total_animaux ?></p>
-      <span class="text-lg font-semibold mt-2 block">Animaux</span>
+      <i class='bx bx-paw text-5xl opacity-10 absolute right-4 bottom-4'></i>
+      <p class="text-3xl font-bold"><?= $total_animaux ?></p>
+      <span class="text-sm font-medium mt-1 block opacity-90">Animaux</span>
     </div>
 
     <!-- Habitats -->
-    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700
-                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+    <div class="group relative p-5 rounded-xl bg-gradient-to-br from-teal-500 to-teal-600
+                text-white shadow-lg hover:shadow-xl hover:-translate-y-1
                 transition-all duration-300">
-      <i class='bx bx-home text-6xl opacity-20 absolute right-6 bottom-6'></i>
-      <p class="text-5xl font-black"><?= $total_habitats ?></p>
-      <span class="text-lg font-semibold mt-2 block">Habitats</span>
+      <i class='bx bx-home text-5xl opacity-10 absolute right-4 bottom-4'></i>
+      <p class="text-3xl font-bold"><?= $total_habitats ?></p>
+      <span class="text-sm font-medium mt-1 block opacity-90">Habitats</span>
     </div>
 
   </div>
 
   <!-- ================= ALIMENTATION ================= -->
-  <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+  <h3 class="text-xl lg:text-2xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+    <i class='bx bx-food-menu text-green-500'></i>
     Animaux par type alimentaire
   </h3>
 
-  <<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
   <?php 
     $colors = [
-      'Herbivore' => 'from-green-400 to-green-600',
-      'Carnivore' => 'from-red-400 to-red-600',
-      'Omnivore'  => 'from-yellow-400 to-yellow-600',
-      'Autre'     => 'from-purple-400 to-purple-600'
+      'Herbivore' => 'from-green-400 to-green-500',
+      'Carnivore' => 'from-red-400 to-red-500',
+      'Omnivore'  => 'from-yellow-400 to-yellow-500',
+      'Autre'     => 'from-purple-400 to-purple-500'
     ];
   ?>
   <?php while($row = $animaux_alimentation->fetch_assoc()): ?>
     <?php 
       $type = ucfirst($row['alimentation']);
-      $bg = $colors[$type] ?? 'from-gray-400 to-gray-600';
+      $bg = $colors[$type] ?? 'from-gray-400 to-gray-500';
     ?>
-    <div class="relative p-8 rounded-2xl text-white shadow-xl
+    <div class="relative p-5 rounded-xl text-white shadow-lg
                 bg-gradient-to-br <?= $bg ?>
-                hover:scale-105 hover:shadow-2xl
+                hover:scale-105 hover:shadow-xl
                 transition-all duration-300 group overflow-hidden">
       
       <!-- Icon en arrière-plan -->
-      <i class='bx bx-paw absolute text-8xl opacity-20 right-4 bottom-4'></i>
+      <i class='bx bx-paw absolute text-6xl opacity-10 right-3 bottom-3'></i>
       
       <!-- Nombre d'animaux -->
-      <p class="text-5xl font-extrabold mb-2"><?= $row['total'] ?></p>
+      <p class="text-3xl font-bold mb-1"><?= $row['total'] ?></p>
       
       <!-- Type d'alimentation -->
-      <span class="text-lg font-semibold"><?= $type ?></span>
+      <span class="text-sm font-medium opacity-90"><?= $type ?></span>
       
       <!-- Petite animation de barre -->
-      <div class="h-2 w-full bg-white/20 rounded-full mt-4 overflow-hidden">
-        <div class="h-full bg-white rounded-full animate-[grow_1.5s_ease-in-out]"></div>
+      <div class="h-1.5 w-full bg-white/20 rounded-full mt-3 overflow-hidden">
+        <div class="h-full bg-white rounded-full animate-[grow_1.5s_ease-in-out]" style="width: 100%"></div>
       </div>
     </div>
-  <?php endwhile; ?>
-</div>
-
+    <?php endwhile; ?>
+  </div>
 
 </main>
 
-    </main>
 
   </div>
 

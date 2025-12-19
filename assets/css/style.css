@@ -159,9 +159,10 @@ body{
 
 
 @keyframes grow {
-  0% { width: 0; }
-  100% { width: 100%; }
-}
-.animate-\[grow_1\.5s_ease-in-out\] {
-  animation: grow 1.5s ease-in-out forwards;
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
