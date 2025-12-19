@@ -11,7 +11,8 @@ if (!isset($_SESSION['user'])) {
 
  
 
- $habitats = $connexion -> query("SELECT * FROM habitats");
+$habitats = $connexion -> query("SELECT * FROM habitats");
+$aminaux = $connexion -> query("SELECT * FROM animal");
 
 ?>
 <!DOCTYPE html>
@@ -135,8 +136,44 @@ if (!isset($_SESSION['user'])) {
           Ajouter animal
         </button>
       </div>
-     
-  <?= var_dump($habitats) ?>
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="px-4 py-2 border border-gray-300">ID</th>
+              <th class="px-4 py-2 border border-gray-300">Nom animal</th>
+              <th class="px-4 py-2 border border-gray-300">Espace</th>
+              <th class="px-4 py-2 border border-gray-300">Alimentation</th>
+              <th class="px-4 py-2 border border-gray-300">Image</th>
+              <th class="px-4 py-2 border border-gray-300">Pays origine</th>
+              <th class="px-4 py-2 border border-gray-300">Description</th>
+              <th class="px-4 py-2 border border-gray-300">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($animal = $aminaux->fetch_assoc()): ?>
+            <tr class="hover:bg-gray-100" >
+              <td class="px-4 py-2 border border-gray-300" ><?= $animal['id_animal']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['nom']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['espace']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['alimentation']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><img src="<?= $animal['image_animal']; ?>" alt="image_animal"></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['pays_origine']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['description_courte']; ?></td>
+              <td class="px-4 py-2 border border-gray-300" >
+                <div class="flex justify-between "  >
+                  <a   href="../../actions/animals_crud.php?id_supprimer=<?= $animal['id_animal'] ?> " 
+                onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')" 
+                >  <i class='bxr  bx-trash' style='color:#fa0d0d'></i></a>
+                <a
+                href="../../actions/modifier_animal.php?id=<?= $animal['id_animal']; ?>" >
+                  <i  class='bxr  bx-edit ' style='color:#068b00'></i> 
+              </a>
+                </div>
+              </td>
+            </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
     </main>
 
   </div>
@@ -163,14 +200,20 @@ if (!isset($_SESSION['user'])) {
     </div>
 
     <!-- FORM -->
-    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+    <form method="POST" action="../../actions/animals_crud.php" enctype="multipart/form-data" class="space-y-4">
 
       <input type="text" name="nom" placeholder="Nom de l'animal" required
         class="w-full px-4 py-3 rounded-lg bg-transparent
                border border-white/20 placeholder-gray-400
                focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
-      <select name="type_alimentaire" required
+      <input type="text" name="espace" placeholder="espace de l'animal" required
+        class="w-full px-4 py-3 rounded-lg bg-transparent
+               border border-white/20 placeholder-gray-400
+               focus:ring-2 focus:ring-accent focus:outline-none text-white">
+
+
+      <select name="alimentation" required
         class="w-full px-4 py-3 rounded-lg bg-dark
                border border-white/20 text-white
                focus:ring-2 focus:ring-accent focus:outline-none">
@@ -191,15 +234,25 @@ if (!isset($_SESSION['user'])) {
           </option>
         <?php endforeach; ?>
       </select>
+      
+        <input type="text" name="pays_origine" placeholder="espace de l'animal" required
+        class="w-full px-4 py-3 rounded-lg bg-transparent
+               border border-white/20 placeholder-gray-400
+               focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
-      <input type="file" name="image"
+        <input type="text" name="description_courte" placeholder="espace de l'animal" required
+        class="w-full px-4 py-3 rounded-lg bg-transparent
+        border border-white/20 placeholder-gray-400
+        focus:ring-2 focus:ring-accent focus:outline-none text-white">
+      
+        <input type="file" name="image"
         class="w-full px-4 py-2 rounded-lg text-white
-               border border-white/20 bg-transparent">
+        border border-white/20 bg-transparent">
 
-      <button type="submit"
-        class="w-full py-3 rounded-lg bg-accent text-dark
-               font-semibold hover:opacity-90 transition">
-        Enregistrer
+      <button type="submit" name="ajouter_animal"
+      class="w-full py-3 rounded-lg bg-accent text-dark
+      font-semibold hover:opacity-90 transition">
+      Enregistrer
       </button>
 
     </form>

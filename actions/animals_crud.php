@@ -1,36 +1,48 @@
 <?php
 
+    require_once '../config/db.php';
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'],$_POST['habitat'],$_POST['type_alimentaire'])) {
+if (isset($_POST['ajouter_animal'])) {
     
     $nom = $_POST['nom'];
-    $type_alimentaire = $_POST['type_alimentaire'];
+    $espace = $_POST['espace'];
+    $alimentation = $_POST['alimentation'];
     $habitat = $_POST['habitat'];
+    $pays_origine = $_POST['pays_origine'];
+    $description_courte = $_POST['description_courte'];
+
 
     $imageName = null;
     if (!empty($_FILES['image']['tmp_name'])) {
         $ext =pathinfo($_FILES['image']['name'],PATHINFO_EXTENSION)  ; 
         $imageName =uniqid() . '.'. $ext ;
         move_uploaded_file($_FILES['image']['tmp_name'],'uploads/'.$imageName );
-    } 
+    }  
 
-    $requet_sql = "INSERT INTO animal (nom,type_alimentaire,image_animal,id_habitat) VALUES 
-    ('$nom','$type_alimentaire','$imageName',$habitat)"; 
+    $stmt = $connexion->prepare("
+        INSERT INTO animal 
+        (nom, espace, alimentation, image_animal, pays_origine, id_habitat, description_courte)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
 
-        $connexion ->query($requet_sql);
-        header("Location: index.php");
-        exit();
+    $stmt->bind_param(
+        "sisssis",
+        $nom,
+        $espace,
+        $alimentation,
+        $imageName,
+        $pays_origine,
+        $habitat,
+        $description_courte
+    );
 
-}
-
-if (isset($_GET['supprimer'])) {
-    $id = $_GET['supprimer'];
-    $requet_sup = "DELETE FROM animal where id ='$id'";
-    $connexion -> query($requet_sup);
-    header("Location: ../index.php");
+    $stmt->execute();
+    header('Location: ../pages/admin/manage_animals.php');
     exit();
+
 }
+
 
 
 ?>
