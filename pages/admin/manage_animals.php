@@ -123,89 +123,79 @@ if (!isset($_SESSION['user'])) {
       <div class="flex justify-between mb-4">
         <h2 class="text-xl font-bold mb-4">Gestion des animaux</h2>
         <button
-        onclick="afficher_modal('s-inscrire-form')"
-         class="bg-red-700 text-white px-4 rounded-full font-semibold hover:scale-105 transition-all"
-        >Ajouter animal</button>
+  onclick="openModal('addAnimalModal')"
+  class="bg-red-700 text-white px-4 py-2 rounded-full
+         font-semibold hover:scale-105 transition-all">
+  Ajouter animal
+</button>
+
       </div>
-            <div id="addAnimalModal" class="modal">
-                <div class="modal-content bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-3xl font-bold text-gray-800">
-                            <i class="fas fa-paw text-purple-500 mr-3"></i>
-                            <span id="modalTitle">Ajouter un Animal</span>
-                        </h2>
-                        <button onclick="closeModal('addAnimalModal')" class="text-gray-500 hover:text-gray-700 text-2xl">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    
-                    <form id="animalForm" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" id="animalId" name="id">
-            
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-semibold mb-2">
-                                <i class="fas fa-tag mr-2"></i>Nom de l'animal
-                            </label>
-                            <input type="text" name="nom" id="animalNom" required 
-                                class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition"
-                                placeholder="Ex: Lion, Éléphant...">
-                        </div>
+      <!-- MODAL AJOUT ANIMAL -->
+<div id="addAnimalModal"
+     class="hidden fixed inset-0 z-50 flex items-center justify-center
+            bg-black/60 backdrop-blur-sm">
 
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-semibold mb-2">
-                                <i class="fas fa-utensils mr-2"></i>Type Alimentaire
-                            </label>
-                            <select name="type_alimentaire" id="animalType" required 
-                                    class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition">
-                                <option value="">Sélectionner...</option>
-                                <option value="carnivore">🥩 Carnivore</option>
-                                <option value="herbivore">🌿 Herbivore</option>
-                                <option value="omnivore">🍽️ Omnivore</option>
-                            </select>
-                        </div>
+  <div
+    class="bg-dark/90 backdrop-blur-lg border border-white/10
+           rounded-2xl shadow-2xl p-8
+           w-full max-w-2xl mx-4">
 
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-semibold mb-2">
-                                <i class="fas fa-tree mr-2"></i>Habitat
-                            </label>
-                            <select name="habitat" id="animalHabitat" required 
-                                    class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition">
-                                <option value="" disabled selected>Sélectionner...</option>
-                                <?php foreach ($habitats as $h): ?>
-                                    <option value="<?= $h['id'] ?>"><?= $h['nom_habitat'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-accent">
+        Ajouter un Animal
+      </h2>
 
+      <button onclick="closeModal('addAnimalModal')"
+              class="text-white hover:text-red-500 text-2xl">
+        ✕
+      </button>
+    </div>
 
-                        <div class="mb-6">
-                            <label class="block text-gray-700 font-semibold mb-2">
-                                <i class="fas fa-image mr-2"></i>Image de l'animal
-                            </label>
-                            <div class="border-2 border-dashed border-purple-300 rounded-xl p-6 text-center hover:border-purple-500 transition">
-                                <input type="file" name="image" id="animalImage" accept="image/*" 
-                                    class="hidden" onchange="previewImage(event)">
-                                <label for="animalImage" class="cursor-pointer">
-                                    <div id="imagePreview" class="mb-4">
-                                        <i class="fas fa-cloud-upload-alt text-6xl text-purple-300 mb-2"></i>
-                                        <p class="text-gray-600">Cliquez pour télécharger une image</p>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+    <!-- FORM -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
 
-                        <div class="flex gap-4">
-                            <button type="submit" class="flex-1 btn-primary bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg">
-                                <i class="fas fa-save mr-2"></i>Enregistrer
-                            </button>
-                            <button type="button" onclick="closeModal('addAnimalModal')" 
-                                    class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-4 rounded-xl transition">
-                                <i class="fas fa-times mr-2"></i>Annuler
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+      <input type="text" name="nom" placeholder="Nom de l'animal" required
+        class="w-full px-4 py-3 rounded-lg bg-transparent
+               border border-white/20 placeholder-gray-400
+               focus:ring-2 focus:ring-accent focus:outline-none text-white">
+
+      <select name="type_alimentaire" required
+        class="w-full px-4 py-3 rounded-lg bg-dark
+               border border-white/20 text-white
+               focus:ring-2 focus:ring-accent focus:outline-none">
+        <option value="">Type alimentaire</option>
+        <option value="carnivore">🥩 Carnivore</option>
+        <option value="herbivore">🌿 Herbivore</option>
+        <option value="omnivore">🍽️ Omnivore</option>
+      </select>
+
+      <select name="habitat" required
+        class="w-full px-4 py-3 rounded-lg bg-dark
+               border border-white/20 text-white
+               focus:ring-2 focus:ring-accent focus:outline-none">
+        <option value="">Habitat</option>
+        <?php foreach ($habitats as $h): ?>
+          <option value="<?= $h['id'] ?>">
+            <?= $h['nom_habitat'] ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
+
+      <input type="file" name="image"
+        class="w-full px-4 py-2 rounded-lg text-white
+               border border-white/20 bg-transparent">
+
+      <button type="submit"
+        class="w-full py-3 rounded-lg bg-accent text-dark
+               font-semibold hover:opacity-90 transition">
+        Enregistrer
+      </button>
+
+    </form>
+  </div>
+</div>
+
       
 
     </main>
@@ -213,7 +203,16 @@ if (!isset($_SESSION['user'])) {
   </div>
 
 
-  
+  <script>
+  function openModal(id) {
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+  }
+</script>
+
 
 </body>
 </html>
