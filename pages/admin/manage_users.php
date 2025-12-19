@@ -1,6 +1,33 @@
 <?php
-require_once '../../actions/user_crud.php';
 session_start();
+
+require_once '../../config/db.php';
+
+$users = $connexion -> query("SELECT * FROM utilisateurs order by id_utilisateur desc");
+
+
+$erreurs = [
+    'email_error' => $_SESSION['register_errors']['email_error'] ?? '',
+    'password_error' => $_SESSION['register_errors']['password_error'] ?? '',
+    'email_existe' => $_SESSION['register_errors']['email_existe'] ?? ''
+];
+
+unset($_SESSION['register_errors']);
+
+function afficher_erreurs($erreur) {
+    return !empty($erreur)
+        ? "<p class='bg-red-500/20 border border-red-500 text-red-300 px-4 py-2 rounded-lg text-sm mb-4'>$erreur</p>"
+        : '';
+}
+
+if (isset($_GET['modal']) && $_GET['modal'] === 's-inscrire-form') {
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            afficher_modal('s-inscrire-form');
+        });
+    </script>";
+}
+
 
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
@@ -47,7 +74,19 @@ if (!isset($_SESSION['user'])) {
         </nav>
 
         
-         <button class="bg-red-700 text-white px-5 py-2 rounded-full font-semibold hover:scale-105 transition-all" type="submit" onclick="window.location.href='../../actions/logout.php'">Logout</button>
+<button
+  onclick="window.location.href='../../actions/logout.php'"
+  class="group flex items-center gap-2
+         bg-gradient-to-r from-red-600 to-red-700
+         text-white px-6 py-2 rounded-full font-semibold
+         shadow-lg shadow-red-900/30
+         hover:scale-105 hover:shadow-xl
+         transition-all duration-300">
+
+    <i class='bxr  bx-arrow-out-right-square-half' style='color:#fa0d0d'></i> 
+
+    <span>Logout</span>
+</button>
     </div>
   </header>
 
@@ -152,7 +191,7 @@ if (!isset($_SESSION['user'])) {
                   <a href="../../actions/user_crud.php?id_supprimer=<?= $user['id_utilisateur'] ?>" 
                 onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')"
                 >  <i class='bxr  bx-trash' style='color:#fa0d0d'></i></a>
-                <a href="../../actions/user_crud.php?id=<?= $user['id_utilisateur']; ?>" >
+                <a href="../../actions/modifier_user.php?id=<?= $user['id_utilisateur']; ?>" >
                   <i class='bxr  bx-edit' style='color:#068b00'></i> 
               </a>
                 </div>
@@ -168,7 +207,7 @@ if (!isset($_SESSION['user'])) {
             <h2 class="text-2xl font-bold text-center text-accent mb-6">
                 Ajouter user
             </h2>
-            <form action="../../actions/auth.php" method="POST" class="space-y-4">
+            <form action="../../actions/user_crud.php" method="POST" class="space-y-4">
                 <input type="text" name="nom" placeholder="Nom complet"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
@@ -177,10 +216,13 @@ if (!isset($_SESSION['user'])) {
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                              <?= afficher_erreurs($erreurs['email_existe']); ?>
+                              <?= afficher_erreurs($erreurs['email_error']); ?>
                 <input type="password" name="password" placeholder="Mot de passe"
                        class="w-full px-4 py-3 rounded-lg bg-transparent
                               border border-white/20 placeholder-gray-400
                               focus:ring-2 focus:ring-accent focus:outline-none text-white" required>
+                              <?= afficher_erreurs($erreurs['password_error']); ?>
                 <select name="role"
                         class="w-full px-4 py-3 rounded-lg bg-dark
                                border border-white/20 text-white
@@ -189,12 +231,12 @@ if (!isset($_SESSION['user'])) {
                     <option value="visiteur">Visiteur</option>
                     <option value="guide">Guide</option>
                 </select>
-                <button name="inscrire"
+                <button name="ajouter_user"
                         class="w-full py-3 rounded-lg bg-accent text-dark
                                font-semibold hover:opacity-90 transition">
                    Ajouter
                 </button>
-                <button onclick="masquer_modal('s-inscrire-form')"
+                <button type="button" onclick="masquer_modal('s-inscrire-form')"
                         class="w-full py-3 rounded-lg bg-red-600 text-white font-semibold hover:opacity-90 transition">
                    Annuler
                 </button>

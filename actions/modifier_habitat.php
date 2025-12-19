@@ -144,7 +144,7 @@ if (isset($_POST['modifier_habitat'])) {
 <div id="habitat_update_habitat" class="fixed inset-0 z-50 flex justify-center items-center bg-dark/90 backdrop-blur-lg">
   <div class="modal w-[700px] bg-dark/80 border border-white/10 rounded-2xl shadow-2xl p-8">
     <div class="flex justify-between">
-      <h2 class="text-2xl font-bold mb-4 text-accent">Modifier un Habitat <?php var_dump($habitat);?></h2>
+      <h2 class="text-2xl font-bold mb-4 text-accent">Modifier un Habitat </h2>
     </div>
     <form action="modifier_habitat.php?id=<?= $habitat['id_habitat'] ?>" method="POST">
       <label class="text-white/70">Nom de l'habitat</label>
