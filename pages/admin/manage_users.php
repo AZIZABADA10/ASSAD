@@ -74,7 +74,19 @@ if (!isset($_SESSION['user'])) {
         </nav>
 
         
-         <button class="bg-red-700 text-white px-5 py-2 rounded-full font-semibold hover:scale-105 transition-all" type="submit" onclick="window.location.href='../../actions/logout.php'">Logout</button>
+<button
+  onclick="window.location.href='../../actions/logout.php'"
+  class="group flex items-center gap-2
+         bg-gradient-to-r from-red-600 to-red-700
+         text-white px-6 py-2 rounded-full font-semibold
+         shadow-lg shadow-red-900/30
+         hover:scale-105 hover:shadow-xl
+         transition-all duration-300">
+
+    <i class='bxr  bx-arrow-out-right-square-half' style='color:#fa0d0d'></i> 
+
+    <span>Logout</span>
+</button>
     </div>
   </header>
 
@@ -179,7 +191,7 @@ if (!isset($_SESSION['user'])) {
                   <a href="../../actions/user_crud.php?id_supprimer=<?= $user['id_utilisateur'] ?>" 
                 onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')"
                 >  <i class='bxr  bx-trash' style='color:#fa0d0d'></i></a>
-                <a href="../../actions/user_crud.php?id=<?= $user['id_utilisateur']; ?>" >
+                <a href="../../actions/modifier_user.php?id=<?= $user['id_utilisateur']; ?>" >
                   <i class='bxr  bx-edit' style='color:#068b00'></i> 
               </a>
                 </div>
