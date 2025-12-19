@@ -1,11 +1,17 @@
 <?php
 
 session_start();
+require_once __DIR__ .'/../../config/db.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
     exit();
 }
+
+
+ 
+
+ $habitats = $connexion -> query("SELECT * FROM habitats");
 
 ?>
 <!DOCTYPE html>
@@ -123,14 +129,18 @@ if (!isset($_SESSION['user'])) {
       <div class="flex justify-between mb-4">
         <h2 class="text-xl font-bold mb-4">Gestion des animaux</h2>
         <button
-  onclick="openModal('addAnimalModal')"
-  class="bg-red-700 text-white px-4 py-2 rounded-full
-         font-semibold hover:scale-105 transition-all">
-  Ajouter animal
-</button>
-
+          onclick="openModal('addAnimalModal')"
+          class="bg-red-700 text-white px-4 py-2 rounded-full
+                font-semibold hover:scale-105 transition-all">
+          Ajouter animal
+        </button>
       </div>
-      <!-- MODAL AJOUT ANIMAL -->
+     
+  <?= var_dump($habitats) ?>
+    </main>
+
+  </div>
+        <!-- MODAL AJOUT ANIMAL -->
 <div id="addAnimalModal"
      class="hidden fixed inset-0 z-50 flex items-center justify-center
             bg-black/60 backdrop-blur-sm">
@@ -176,7 +186,7 @@ if (!isset($_SESSION['user'])) {
                focus:ring-2 focus:ring-accent focus:outline-none">
         <option value="">Habitat</option>
         <?php foreach ($habitats as $h): ?>
-          <option value="<?= $h['id'] ?>">
+          <option value="<?= intval($h['id_habitat']) ?>">
             <?= $h['nom_habitat'] ?>
           </option>
         <?php endforeach; ?>
@@ -195,12 +205,6 @@ if (!isset($_SESSION['user'])) {
     </form>
   </div>
 </div>
-
-      
-
-    </main>
-
-  </div>
 
 
   <script>
