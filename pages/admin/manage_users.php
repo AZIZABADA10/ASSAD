@@ -180,21 +180,22 @@ if (!isset($_SESSION['user'])) {
                   <option value="en_attend" <?= $user['statut_de_compet']==='en_attend'?'selected':''?>>En attend</option>
                   <option value="blocked" <?= $user['statut_de_compet']==='blocked'?'selected':''?> >Blocked</option>
                 </select>
-                <button style="<?= $user['role']==='admin'?'pointer-events:none; opacity:0.5; cursor:not-allowed;' : '' ?>" type="submit" name="changer_status" 
-                class="bg-red-500 text-white px-2 py-1 rounded font-semibold hover:scale-105 transition-all" 
+                <button type="submit" name="changer_status" 
+                style="<?= $user['role']==='admin' ? 'pointer-events:none; opacity:0.5; cursor:not-allowed;' : '' ?>"
+                class="bg-red-500 text-white px-2 py-1  rounded font-semibold hover:scale-105 transition-all" 
                 >Changer Statut</button>
                  </form>
               </td>
               <td class="px-4 py-2 border border-gray-300"><?= $user['role']; ?></td>
               <td class="px-4 py-2 border border-gray-300" >
                 <div class="flex justify-between "  >
-                  <a style="<?= $user['role']==='admin'?'pointer-events:none; opacity:0.5; cursor:not-allowed;' : '' ?>"
-                   href="../../actions/user_crud.php?id_supprimer=<?= $user['id_utilisateur'] ?> " 
-                onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')">
-                <i   class='bxr  bx-trash cursor-not-allowed ' style='color:#fa0d0d'></i></a>
-                <a   style="<?= $user['role']==='admin'?'pointer-events:none; opacity:0.5; cursor:not-allowed;' : '' ?>"
+                  <a   href="../../actions/user_crud.php?id_supprimer=<?= $user['id_utilisateur'] ?> " 
+                onclick="return confirm('Vous voullez vrément supprimer ce utilisateur?')" 
+                style="<?= $user['role']==='admin' ? 'pointer-events:none; opacity:0.5; cursor:not-allowed;' : '' ?>"
+                >  <i class='bxr  bx-trash' style='color:#fa0d0d'></i></a>
+                <a style="<?= $user['role']==='admin' ? 'pointer-events:none; opacity:0.5; cursor:not-allowed;' : '' ?>"
                  href="../../actions/modifier_user.php?id=<?= $user['id_utilisateur']; ?>" >
-                  <i  class='bxr  bx-edit cursor-not-allowed' style='color:#068b00'></i> 
+                  <i  class='bxr  bx-edit ' style='color:#068b00'></i> 
               </a>
                 </div>
               </td>
