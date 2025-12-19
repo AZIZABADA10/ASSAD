@@ -2,10 +2,42 @@
 
 session_start();
 
+require_once '../../config/db.php';
+
+
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
     exit();
 }
+
+
+
+
+
+// Total utilisateurs
+$total_users = $connexion->query("SELECT COUNT(*) total FROM utilisateurs")->fetch_assoc()['total'];
+
+// Admin
+$total_admin = $connexion->query("SELECT COUNT(*) total FROM utilisateurs WHERE role='admin'")->fetch_assoc()['total'];
+
+// Guide
+$total_guide = $connexion->query("SELECT COUNT(*) total FROM utilisateurs WHERE role='guide'")->fetch_assoc()['total'];
+
+// Visiteur
+$total_visiteur = $connexion->query("SELECT COUNT(*) total FROM utilisateurs WHERE role='visiteur'")->fetch_assoc()['total'];
+
+// Total animaux
+$total_animaux = $connexion->query("SELECT COUNT(*) total FROM animal")->fetch_assoc()['total'];
+
+// Total habitats
+$total_habitats = $connexion->query("SELECT COUNT(*) total FROM habitats")->fetch_assoc()['total'];
+
+$animaux_alimentation = $connexion->query("
+    SELECT alimentation, COUNT(*) total
+    FROM animal
+    GROUP BY alimentation
+");
+
 
 ?>
 <!DOCTYPE html>
@@ -117,12 +149,117 @@ if (!isset($_SESSION['user'])) {
         </nav>
       </div>
     </aside>
+    <main>   
+    <main class="ml-64 w-full p-10">
 
-    <!-- Main content -->
-    <main class="ml-64 w-full p-8">
-      <h2 class="text-xl font-bold mb-4">Statistiques</h2>
+  <!-- TITRE -->
+  <h2 class="text-3xl font-extrabold mb-10 flex items-center gap-3">
+    <i class='bx bx-chart text-accent'></i>
+    Statistiques générales
+  </h2>
 
+  <!-- ================= CARTES PRINCIPALES ================= -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+
+    <!-- Utilisateurs -->
+    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700
+                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+                transition-all duration-300">
+      <i class='bx bx-user text-6xl opacity-20 absolute right-6 bottom-6'></i>
+      <p class="text-5xl font-black"><?= $total_users ?></p>
+      <span class="text-lg font-semibold mt-2 block">Utilisateurs</span>
+    </div>
+
+    <!-- Admin -->
+    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-red-500 to-red-700
+                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+                transition-all duration-300">
+      <i class='bx bx-shield-quarter text-6xl opacity-20 absolute right-6 bottom-6'></i>
+      <p class="text-5xl font-black"><?= $total_admin ?></p>
+      <span class="text-lg font-semibold mt-2 block">Admins</span>
+    </div>
+
+    <!-- Guides -->
+    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-green-500 to-green-700
+                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+                transition-all duration-300">
+      <i class='bx bx-map text-6xl opacity-20 absolute right-6 bottom-6'></i>
+      <p class="text-5xl font-black"><?= $total_guide ?></p>
+      <span class="text-lg font-semibold mt-2 block">Guides</span>
+    </div>
+
+    <!-- Visiteurs -->
+    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600
+                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+                transition-all duration-300">
+      <i class='bx bx-group text-6xl opacity-20 absolute right-6 bottom-6'></i>
+      <p class="text-5xl font-black"><?= $total_visiteur ?></p>
+      <span class="text-lg font-semibold mt-2 block">Visiteurs</span>
+    </div>
+
+    <!-- Animaux -->
+    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700
+                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+                transition-all duration-300">
+      <i class='bx bx-paw text-6xl opacity-20 absolute right-6 bottom-6'></i>
+      <p class="text-5xl font-black"><?= $total_animaux ?></p>
+      <span class="text-lg font-semibold mt-2 block">Animaux</span>
+    </div>
+
+    <!-- Habitats -->
+    <div class="group relative p-8 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700
+                text-white shadow-xl hover:-translate-y-2 hover:shadow-2xl
+                transition-all duration-300">
+      <i class='bx bx-home text-6xl opacity-20 absolute right-6 bottom-6'></i>
+      <p class="text-5xl font-black"><?= $total_habitats ?></p>
+      <span class="text-lg font-semibold mt-2 block">Habitats</span>
+    </div>
+
+  </div>
+
+  <!-- ================= ALIMENTATION ================= -->
+  <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+    Animaux par type alimentaire
+  </h3>
+
+  <<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <?php 
+    $colors = [
+      'Herbivore' => 'from-green-400 to-green-600',
+      'Carnivore' => 'from-red-400 to-red-600',
+      'Omnivore'  => 'from-yellow-400 to-yellow-600',
+      'Autre'     => 'from-purple-400 to-purple-600'
+    ];
+  ?>
+  <?php while($row = $animaux_alimentation->fetch_assoc()): ?>
+    <?php 
+      $type = ucfirst($row['alimentation']);
+      $bg = $colors[$type] ?? 'from-gray-400 to-gray-600';
+    ?>
+    <div class="relative p-8 rounded-2xl text-white shadow-xl
+                bg-gradient-to-br <?= $bg ?>
+                hover:scale-105 hover:shadow-2xl
+                transition-all duration-300 group overflow-hidden">
       
+      <!-- Icon en arrière-plan -->
+      <i class='bx bx-paw absolute text-8xl opacity-20 right-4 bottom-4'></i>
+      
+      <!-- Nombre d'animaux -->
+      <p class="text-5xl font-extrabold mb-2"><?= $row['total'] ?></p>
+      
+      <!-- Type d'alimentation -->
+      <span class="text-lg font-semibold"><?= $type ?></span>
+      
+      <!-- Petite animation de barre -->
+      <div class="h-2 w-full bg-white/20 rounded-full mt-4 overflow-hidden">
+        <div class="h-full bg-white rounded-full animate-[grow_1.5s_ease-in-out]"></div>
+      </div>
+    </div>
+  <?php endwhile; ?>
+</div>
+
+
+</main>
 
     </main>
 

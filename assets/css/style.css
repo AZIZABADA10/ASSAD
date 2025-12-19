@@ -155,3 +155,13 @@ body{
 .logo-anim:hover {
     transform: rotate(5deg) scale(1.1);
 }
+
+
+
+@keyframes grow {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+.animate-\[grow_1\.5s_ease-in-out\] {
+  animation: grow 1.5s ease-in-out forwards;
+}
