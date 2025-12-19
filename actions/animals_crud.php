@@ -43,6 +43,18 @@ if (isset($_POST['ajouter_animal'])) {
 
 }
 
+if (isset($_GET['id_supprimer'])) {
+    $id = intval($_GET['id_supprimer']); 
+    $stmt = $connexion->prepare(
+        "DELETE FROM animal WHERE id_animal = ?"
+    );
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+    header('Location: ../pages/admin/manage_animals.php');
+    exit();
+}
+
 
 
 ?>
