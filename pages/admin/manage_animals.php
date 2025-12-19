@@ -32,39 +32,10 @@ $aminaux = $connexion->query("SELECT * FROM animal ORDER BY id_animal DESC");
 <body class="bg-light text-dark font-sans">
 
   <!-- Header -->
-  <header class="fixed top-0 w-full z-50 bg-dark/90 backdrop-blur-md border-b border-white/10">
-    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4 text-white">
-      <div class="flex items-center gap-3 group cursor-pointer">
-        <div class="relative w-15 h-16">
-          <img src="../../assets/images/assad_logo.png" alt="Logo Zoo ASSAD"
-            class="w-full h-full object-contain logo-anim">
-        </div>
-        <h1 class="text-xl font-bold tracking-wide transition-colors duration-300 group-hover:text-accent">
-          Zoo ASSAD
-        </h1>
-      </div>
+ <?php
+  require '../layouts/header.php';
+  ?>
 
-      <nav class="hidden md:flex gap-8 font-medium">
-        <a href="../../index.php" class="hover:text-accent transition">Accueil</a>
-        <a href="../public/animals.php" class="hover:text-accent transition">Animaux</a>
-        <a href="../public/visits.php" class="hover:text-accent transition">Visites Guidées</a>
-        <a href="../public/lion.php" class="hover:text-accent transition">Lion de l'Atlas</a>
-      </nav>
-
-
-      <button onclick="window.location.href='../../actions/logout.php'" class="group flex items-center gap-2
-         bg-gradient-to-r from-red-600 to-red-700
-         text-white px-6 py-2 rounded-full font-semibold
-         shadow-lg shadow-red-900/30
-         hover:scale-105 hover:shadow-xl
-         transition-all duration-300">
-
-        <i class='bxr  bx-arrow-out-right-square-half' style='color:#fa0d0d'></i>
-
-        <span>Logout</span>
-      </button>
-    </div>
-  </header>
 
   <!-- Layout -->
   <div class="flex pt-24">
@@ -103,14 +74,6 @@ $aminaux = $connexion->query("SELECT * FROM animal ORDER BY id_animal DESC");
                     transition-all duration-300 group  mb-2">
           <i class='bx bx-home text-xl group-hover:scale-110 transition'></i>
           <span>Habitats</span>
-        </a>
-
-        <a href="stats.php" class="flex items-center gap-3 px-4 py-3 rounded-xl
-                    text-white/90 font-medium
-                    hover:bg-white/10 hover:text-accent
-                    transition-all duration-300 group  mb-2">
-          <i class='bx bx-chart-line text-xl group-hover:scale-110 transition'></i>
-          <span>Statistiques</span>
         </a>
 
         </nav>
