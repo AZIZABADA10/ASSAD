@@ -52,8 +52,19 @@ if (!isset($_SESSION['user'])) {
         </nav>
 
         
-         <button class="bg-red-700 text-white px-5 py-2 rounded-full font-semibold hover:scale-105 transition-all" type="submit" onclick="window.location.href='../../actions/logout.php'">Logout</button>
-    </div>
+<button
+  onclick="window.location.href='../../actions/logout.php'"
+  class="group flex items-center gap-2
+         bg-gradient-to-r from-red-600 to-red-700
+         text-white px-6 py-2 rounded-full font-semibold
+         shadow-lg shadow-red-900/30
+         hover:scale-105 hover:shadow-xl
+         transition-all duration-300">
+
+    <i class='bxr  bx-arrow-out-right-square-half' style='color:#fa0d0d'></i> 
+
+    <span>Logout</span>
+</button>    </div>
   </header>
 
   <!-- Layout -->
