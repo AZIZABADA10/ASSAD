@@ -14,6 +14,7 @@ if (!isset($_SESSION['user'])) {
 
 
 
+
 // Total utilisateurs
 $total_users = $connexion->query("SELECT COUNT(*) total FROM utilisateurs")->fetch_assoc()['total'];
 
@@ -218,46 +219,50 @@ $animaux_alimentation = $connexion->query("
   </div>
 
   <!-- ================= ALIMENTATION ================= -->
-  <h3 class="text-xl lg:text-2xl font-bold mb-6 flex items-center gap-2 text-gray-800">
-    <i class='bx bx-food-menu text-green-500'></i>
-    Animaux par type alimentaire
-  </h3>
+<h3 class="text-xl lg:text-2xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+  <i class='bx bx-food-menu text-green-500'></i>
+  Animaux par type alimentaire
+</h3>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-  <?php 
-    $colors = [
-      'Herbivore' => 'from-green-400 to-green-500',
-      'Carnivore' => 'from-red-400 to-red-500',
-      'Omnivore'  => 'from-yellow-400 to-yellow-500',
-      'Autre'     => 'from-purple-400 to-purple-500'
-    ];
-  ?>
+<?php
+$max = 0;
+$animaux_alimentation->data_seek(0); // remettre le pointeur au début
+while($row_tmp = $animaux_alimentation->fetch_assoc()){
+    if($row_tmp['total'] > $max) $max = $row_tmp['total'];
+}
+$animaux_alimentation->data_seek(0); // remettre le pointeur au début pour l'affichage
+
+$colors = [
+  'Herbivore' => 'bg-green-500',
+  'Carnivore' => 'bg-red-500',
+  'Omnivore'  => 'bg-yellow-500',
+  'Autre'     => 'bg-purple-500'
+];
+?>
+
+<div class="space-y-4">
   <?php while($row = $animaux_alimentation->fetch_assoc()): ?>
     <?php 
       $type = ucfirst($row['alimentation']);
-      $bg = $colors[$type] ?? 'from-gray-400 to-gray-500';
+      $color = $colors[$type] ?? 'bg-gray-500';
+      $percent = ($row['total'] / $max) * 100; // calcul du pourcentage
     ?>
-    <div class="relative p-5 rounded-xl text-white shadow-lg
-                bg-gradient-to-br <?= $bg ?>
-                hover:scale-105 hover:shadow-xl
-                transition-all duration-300 group overflow-hidden">
+    <div class="flex items-center gap-4">
       
-      <!-- Icon en arrière-plan -->
-      <i class='bx bx-paw absolute text-6xl opacity-10 right-3 bottom-3'></i>
+      <!-- Label -->
+      <span class="w-32 text-gray-700 font-medium"><?= $type ?></span>
       
-      <!-- Nombre d'animaux -->
-      <p class="text-3xl font-bold mb-1"><?= $row['total'] ?></p>
-      
-      <!-- Type d'alimentation -->
-      <span class="text-sm font-medium opacity-90"><?= $type ?></span>
-      
-      <!-- Petite animation de barre -->
-      <div class="h-1.5 w-full bg-white/20 rounded-full mt-3 overflow-hidden">
-        <div class="h-full bg-white rounded-full animate-[grow_1.5s_ease-in-out]" style="width: 100%"></div>
+      <!-- Barre de progression -->
+      <div class="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden relative">
+        <div class="<?= $color ?> h-full rounded-full transition-all duration-1000" 
+             style="width: <?= $percent ?>%;"></div>
+        <span class="absolute right-2 top-0.5 text-white font-bold text-sm"><?= $row['total'] ?></span>
       </div>
     </div>
-    <?php endwhile; ?>
-  </div>
+  <?php endwhile; ?>
+</div>
+
+
 
 </main>
 
