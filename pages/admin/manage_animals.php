@@ -120,7 +120,13 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h2 class="text-xl font-bold mb-4">Gestion des animaux</h2>
+      <div class="flex justify-between mb-4">
+        <h2 class="text-xl font-bold mb-4">Gestion des animaux</h2>
+        <button
+        onclick="afficher_modal('s-inscrire-form')"
+         class="bg-red-700 text-white px-4 rounded-full font-semibold hover:scale-105 transition-all"
+        >Ajouter animal</button>
+      </div>
 
       
 
