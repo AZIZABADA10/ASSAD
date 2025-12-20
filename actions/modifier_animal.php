@@ -38,10 +38,10 @@ if (isset($_POST['modifier_animal'])) {
 
     // Upload image (optionnel)
     if (!empty($_FILES['image_animal']['name'])) {
-        $image_name = uniqid() . '_' . $_FILES['image_animal']['name'];
+        $image_name = uniqid() . '.' . $_FILES['image_animal']['name'];
         move_uploaded_file(
             $_FILES['image_animal']['tmp_name'],
-            "../uploads/$image_name"
+            "../actions/uploads/$image_name"
         );
     }
 
