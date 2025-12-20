@@ -27,7 +27,7 @@ if (isset($_POST['ajouter_animal'])) {
     ");
 
     $stmt->bind_param(
-        "ss sssis",
+        "sssssis",
         $nom,
         $espace,
         $alimentation,
