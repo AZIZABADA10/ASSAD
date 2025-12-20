@@ -139,26 +139,26 @@ $aminaux = $connexion -> query("SELECT * FROM animal ORDER BY id_animal DESC");
         <table class="w-full text-left border-collapse">
           <thead class="bg-gray-200">
             <tr>
-              <th class="px-4 py-2 border border-gray-300">ID</th>
               <th class="px-4 py-2 border border-gray-300">Nom animal</th>
               <th class="px-4 py-2 border border-gray-300">Espace</th>
               <th class="px-4 py-2 border border-gray-300">Alimentation</th>
               <th class="px-4 py-2 border border-gray-300">Image</th>
               <th class="px-4 py-2 border border-gray-300">Pays origine</th>
               <th class="px-4 py-2 border border-gray-300">Description</th>
+              <th class="px-4 py-2 border border-gray-300">Id habitat</th>
               <th class="px-4 py-2 border border-gray-300">Actions</th>
             </tr>
           </thead>
           <tbody>
             <?php while ($animal = $aminaux->fetch_assoc()): ?>
             <tr class="hover:bg-gray-100" >
-              <td class="px-4 py-2 border border-gray-300" ><?= $animal['id_animal']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['nom_animal']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['espace']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['alimentation']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><img src="../../actions/uploads/<?= $animal['image_animal']; ?>" class="w-20 h-16 object-cover rounded"></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['pays_origine']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['description_courte']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['id_habitat']; ?></td>
               <td class="px-4 py-2 border border-gray-300" >
                 <div class="flex justify-between "  >
                   <a   href="../../actions/animals_crud.php?id_supprimer=<?= $animal['id_animal'] ?> " 

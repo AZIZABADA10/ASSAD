@@ -12,6 +12,12 @@ if ($id) {
     $animal = $stmt->get_result()->fetch_assoc();
 }
 
+
+$habitats = $connexion
+    ->query("SELECT id_habitat, nom_habitat FROM habitats")
+    ->fetch_all(MYSQLI_ASSOC);
+
+
 $erreurs = $_SESSION['update_errors'] ?? [];
 unset($_SESSION['update_errors']);
 
@@ -72,6 +78,8 @@ if (isset($_POST['modifier_animal'])) {
         header("Location: modifier_animal.php?id=$id");
         exit();
     }
+
+
 }
 ?>
 
@@ -126,10 +134,23 @@ if (isset($_POST['modifier_animal'])) {
                   class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white"
                   rows="3"><?= $animal['description_courte'] ?></textarea>
 
-        <input type="number" name="id_habitat"
-               value="<?= $animal['id_habitat'] ?>"
-               placeholder="ID Habitat"
-               class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+       <select name="id_habitat"
+            class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 
+                text-white focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+            required>
+
+            <option value="">Sélectionner un habitat</option>
+
+            <?php foreach ($habitats as $habitat): ?>
+                <option value="<?= $habitat['id_habitat'] ?>"
+                    <?= $habitat['id_habitat'] == $animal['id_habitat'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($habitat['nom_habitat']) ?>
+                </option>
+            <?php endforeach; ?>
+
+        </select>
+
+
 
         <button name="modifier_animal"
                 class="w-full py-3 rounded-lg bg-yellow-400 text-gray-900 font-semibold hover:bg-yellow-500 hover:scale-105 transition">
