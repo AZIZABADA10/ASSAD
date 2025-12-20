@@ -2,7 +2,6 @@
 session_start();
 require_once __DIR__ . '/../../config/db.php';
 
-
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
     exit();
@@ -10,13 +9,8 @@ if (!isset($_SESSION['user'])) {
 
 $user_id = $_SESSION['user']['id_utilisateur'] ?? null;
 
-//$visites = $connexion->query("SELECT * FROM visitesguidees ORDER BY date_heure ASC");
+// Récupérer les visites ouvertes
 $visites = $connexion->query("SELECT * FROM visitesguidees WHERE statut = 'ouverte' ORDER BY date_heure DESC");
-
-$stmt_check = $connexion->prepare("SELECT * FROM reservations WHERE id_visite = ? AND id_utilisateur = ?");
-$stmt_check->bind_param("ii", $visite['id_visite'], $user_id);
-$stmt_check->execute();
-$already_reserved = $stmt_check->get_result()->num_rows > 0;
 
 require_once '../layouts/header.php';
 ?>
@@ -34,6 +28,18 @@ require_once '../layouts/header.php';
             $stmt_check->bind_param("ii", $visite['id_visite'], $user_id);
             $stmt_check->execute();
             $already_reserved = $stmt_check->get_result()->num_rows > 0;
+
+            // Récupérer les commentaires pour cette visite
+            $stmt_comments = $connexion->prepare("
+                SELECT c.texte, c.date_commentaire, u.nom_complet
+                FROM commentaires c
+                JOIN utilisateurs u ON c.id_utilisateur = u.id_utilisateur
+                WHERE c.id_visite = ?
+                ORDER BY c.date_commentaire DESC
+            ");
+            $stmt_comments->bind_param("i", $visite['id_visite']);
+            $stmt_comments->execute();
+            $commentaires = $stmt_comments->get_result();
             ?>
 
             <div
@@ -46,8 +52,7 @@ require_once '../layouts/header.php';
                         <?= date('d/m/Y H:i', strtotime($visite['date_heure'])) ?></div>
                     <div><i class='bx bx-time-five'></i> <strong>Durée:</strong> <?= $visite['duree'] ?> min</div>
                     <div><i class='bx bx-money'></i> <strong>Prix:</strong> <?= $visite['prix'] ?> MAD</div>
-                    <div><i class='bx bx-globe'></i> <strong>Langue:</strong> <?= htmlspecialchars($visite['langue']) ?>
-                    </div>
+                    <div><i class='bx bx-globe'></i> <strong>Langue:</strong> <?= htmlspecialchars($visite['langue']) ?></div>
                     <div><i class='bx bx-group'></i> <strong>Capacité:</strong> <?= $visite['capacite_max'] ?></div>
                 </div>
 
@@ -71,6 +76,23 @@ require_once '../layouts/header.php';
                     </a>
                 <?php endif; ?>
 
+                <?php if ($commentaires->num_rows > 0): ?>
+                    <button onclick="toggleComments(<?= $visite['id_visite'] ?>)"
+                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 transition">
+                        Voir commentaires
+                    </button>
+
+                    <div id="comments-<?= $visite['id_visite'] ?>" class="mt-4 hidden bg-gray-50 p-4 rounded-lg max-h-48 overflow-y-auto">
+                        <?php while ($com = $commentaires->fetch_assoc()): ?>
+                            <div class="mb-3 border-b pb-2">
+                                <p class="text-sm font-semibold"><?= htmlspecialchars($com['nom_complet']) ?></p>
+                                <p class="text-sm text-gray-600"><?= htmlspecialchars($com['texte']) ?></p>
+                                <p class="text-xs text-gray-400"><?= date('d/m/Y H:i', strtotime($com['date_commentaire'])) ?></p>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                <?php endif; ?>
+
             </div>
         <?php endwhile; ?>
     </div>
@@ -86,8 +108,7 @@ require_once '../layouts/header.php';
 
             <label class="block">
                 <span class="text-gray-700">Nombre de personnes</span>
-                <input type="number" name="nb_personnes" min="1" required class="w-full px-4 py-2 border rounded"
-                    placeholder="Ex: 2">
+                <input type="number" name="nb_personnes" min="1" required class="w-full px-4 py-2 border rounded" placeholder="Ex: 2">
             </label>
 
             <div class="flex justify-between gap-4">
@@ -104,24 +125,23 @@ require_once '../layouts/header.php';
     </div>
 </div>
 
-
 <script>
-    function openModal(id, titre) {
-        document.getElementById('reservationModal').classList.remove('hidden');
-        document.getElementById('modal_visite_id').value = id;
-        document.getElementById('modalTitle').textContent = "Réserver : " + titre;
-    }
+function openModal(id, titre) {
+    document.getElementById('reservationModal').classList.remove('hidden');
+    document.getElementById('modal_visite_id').value = id;
+    document.getElementById('modalTitle').textContent = "Réserver : " + titre;
+}
 
-    function closeModal() {
-        document.getElementById('reservationModal').classList.add('hidden');
-    }
+function closeModal() {
+    document.getElementById('reservationModal').classList.add('hidden');
+}
+
+function toggleComments(visiteId) {
+    const div = document.getElementById('comments-' + visiteId);
+    div.classList.toggle('hidden');
+}
 </script>
 
-</style>
 <?php
-
 require_once '../layouts/footer.php';
 ?>
-</body>
-
-</html>
