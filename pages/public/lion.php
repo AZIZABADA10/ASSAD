@@ -1,4 +1,5 @@
-<?php ?>
+<?php
+session_start();?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,13 +14,13 @@
   <link rel="stylesheet" href="../../assets/css/style.css">
 
 </head>
-
-<body class="bg-light text-dark font-sans">
-
-  <!-- Header -->
   <?php
   require '../layouts/header.php';
   ?>
+<body class="bg-light text-dark font-sans">
+
+  <!-- Header -->
+>
 
   <!-- HERO SECTION -->
   <section class="relative h-screen parallax-bg"

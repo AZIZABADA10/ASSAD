@@ -54,12 +54,32 @@ $reservations = $stmt->get_result();
                     Zoo ASSAD
                 </h1>
             </div>
-            <nav class="hidden md:flex gap-8 font-medium">
+            <nav class="hidden md:flex gap-8 font-medium items-center">
                 <a href="../../index.php" class="hover:text-accent transition">Accueil</a>
                 <a href="../public/animals.php" class="hover:text-accent transition">Animaux</a>
                 <a href="../public/visits.php" class="hover:text-accent transition">Visites Guidées</a>
                 <a href="../public/lion.php" class="hover:text-accent transition">Lion de l'Atlas</a>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'visiteur'): ?>
+                    <a href="../visitor/dashboard.php" class="hover:text-accent transition font-semibold">
+                        Mes réservations
+                    </a>
+                <?php endif; ?>
+                <?php if (!isset($_SESSION['user'])): ?>
+                    <a href="../public/login.php"
+                      class="px-4 py-2 rounded-full bg-accent text-white hover:bg-accent/80 transition">
+                        Login
+                    </a>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <a href="../public/logout.php"
+                      class="px-4 py-2 rounded-full border border-white/20 hover:bg-white/10 transition">
+                        Logout
+                    </a>
+                <?php endif; ?>
             </nav>
+
+        </nav>
+
 
         </div>
     </header>
