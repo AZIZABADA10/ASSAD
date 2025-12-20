@@ -200,62 +200,62 @@ $aminaux = $connexion -> query("SELECT * FROM animal ORDER BY id_animal DESC");
     </div>
 
     <!-- FORM -->
-    <form method="POST" action="../../actions/animals_crud.php" enctype="multipart/form-data" class="space-y-4">
+      <form method="POST" action="../../actions/animals_crud.php" enctype="multipart/form-data" class="space-y-4">
 
-      <input type="text" name="nom" placeholder="Nom de l'animal" required
-        class="w-full px-4 py-3 rounded-lg bg-transparent
-               border border-white/20 placeholder-gray-400
-               focus:ring-2 focus:ring-accent focus:outline-none text-white">
+        <input type="text" name="nom" placeholder="Nom de l'animal" required
+          class="w-full px-4 py-3 rounded-lg bg-transparent
+                border border-white/20 placeholder-gray-400
+                focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
-      <input type="text" name="espace" placeholder="espace de l'animal" required
-        class="w-full px-4 py-3 rounded-lg bg-transparent
-               border border-white/20 placeholder-gray-400
-               focus:ring-2 focus:ring-accent focus:outline-none text-white">
+        <input type="text" name="espace" placeholder="espace de l'animal" required
+          class="w-full px-4 py-3 rounded-lg bg-transparent
+                border border-white/20 placeholder-gray-400
+                focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
 
-      <select name="alimentation" required
-        class="w-full px-4 py-3 rounded-lg bg-dark
-               border border-white/20 text-white
-               focus:ring-2 focus:ring-accent focus:outline-none">
-        <option value="">Type alimentaire</option>
-        <option value="carnivore">🥩 Carnivore</option>
-        <option value="herbivore">🌿 Herbivore</option>
-        <option value="omnivore">🍽️ Omnivore</option>
-      </select>
+        <select name="alimentation" required
+          class="w-full px-4 py-3 rounded-lg bg-dark
+                border border-white/20 text-white
+                focus:ring-2 focus:ring-accent focus:outline-none">
+          <option value="">Type alimentaire</option>
+          <option value="carnivore">🥩 Carnivore</option>
+          <option value="herbivore">🌿 Herbivore</option>
+          <option value="omnivore">🍽️ Omnivore</option>
+        </select>
 
-      <select name="habitat" required
-        class="w-full px-4 py-3 rounded-lg bg-dark
-               border border-white/20 text-white
-               focus:ring-2 focus:ring-accent focus:outline-none">
-        <option value="">Habitat</option>
-        <?php foreach ($habitats as $h): ?>
-          <option value="<?= intval($h['id_habitat']) ?>">
-            <?= $h['nom_habitat'] ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-      
-        <input type="text" name="pays_origine" placeholder="espace de l'animal" required
-        class="w-full px-4 py-3 rounded-lg bg-transparent
-               border border-white/20 placeholder-gray-400
-               focus:ring-2 focus:ring-accent focus:outline-none text-white">
+        <select name="habitat" required
+          class="w-full px-4 py-3 rounded-lg bg-dark
+                border border-white/20 text-white
+                focus:ring-2 focus:ring-accent focus:outline-none">
+          <option value="">Habitat</option>
+          <?php foreach ($habitats as $h): ?>
+            <option value="<?= intval($h['id_habitat']) ?>">
+              <?= $h['nom_habitat'] ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+        
+          <input type="text" name="pays_origine" placeholder="espace de l'animal" required
+          class="w-full px-4 py-3 rounded-lg bg-transparent
+                border border-white/20 placeholder-gray-400
+                focus:ring-2 focus:ring-accent focus:outline-none text-white">
 
-        <input type="text" name="description_courte" placeholder="espace de l'animal" required
-        class="w-full px-4 py-3 rounded-lg bg-transparent
-        border border-white/20 placeholder-gray-400
-        focus:ring-2 focus:ring-accent focus:outline-none text-white">
-      
-        <input type="file" name="image"
-        class="w-full px-4 py-2 rounded-lg text-white
-        border border-white/20 bg-transparent">
+          <input type="text" name="description_courte" placeholder="espace de l'animal" required
+          class="w-full px-4 py-3 rounded-lg bg-transparent
+          border border-white/20 placeholder-gray-400
+          focus:ring-2 focus:ring-accent focus:outline-none text-white">
+        
+          <input type="file" name="image"
+          class="w-full px-4 py-2 rounded-lg text-white
+          border border-white/20 bg-transparent">
 
-      <button type="submit" name="ajouter_animal"
-      class="w-full py-3 rounded-lg bg-accent text-dark
-      font-semibold hover:opacity-90 transition">
-      Enregistrer
-      </button>
+        <button type="submit" name="ajouter_animal"
+        class="w-full py-3 rounded-lg bg-accent text-dark
+        font-semibold hover:opacity-90 transition">
+        Enregistrer
+        </button>
 
-    </form>
+      </form>
   </div>
 </div>
 
