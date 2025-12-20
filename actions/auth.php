@@ -81,15 +81,19 @@
 
 
         if (empty($erreurs)) {
-            $password_hache = password_hash($password,PASSWORD_BCRYPT);
-            $stmt = $connexion -> prepare("INSERT INTO utilisateurs (nom_complet,mot_de_passe,email,`role`)
-            VALUES (?,?,?,?)");
-            $stmt -> bind_param('ssss',$nom,$password_hache,$email,$role);
-            $stmt->execute();
-            $_SESSION['success'] = "Inscription réussie ! Connectez-vous.";
-            $_SESSION['form_active'] = 'login-form'; 
-            header('Location: ../pages/public/login.php');
-            exit();
+            $password_hache = password_hash($password,PASSWORD_DEFAULT);
+            $stmt = $connexion -> prepare("INSERT INTO utilisateurs (nom_complet,mot_de_passe,email,`role`,statut_de_compet)
+            VALUES (?,?,?,?,?)");
+            $statut_de_compet = 'active';
+            if ( $role === 'guide') {
+                $statut_de_compet = 'en_attend';  
+            }
+            $stmt -> bind_param('sssss',$nom,$password_hache,$email,$role,$statut_de_compet);
+                $stmt->execute();
+                $_SESSION['success'] = "Inscription réussie ! Connectez-vous.";
+                $_SESSION['form_active'] = 'login-form'; 
+                header('Location: ../pages/public/login.php');
+                exit();
         }else{
             $_SESSION['register_errors'] = $erreurs;
             $_SESSION['form_active'] = 's-inscrire-form';
