@@ -2,7 +2,7 @@
 
 require_once '../../config/db.php';
 
-$animal = $connexion -> query("SELECT * FROM animal")->fetch_assoc();
+$animaux = $connexion->query("SELECT * FROM animal")->fetch_all(MYSQLI_ASSOC);
 
 
 
