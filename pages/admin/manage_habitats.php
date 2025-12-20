@@ -104,7 +104,7 @@ if (!isset($_SESSION['user'])) {
               <td class="px-4 py-2 border border-gray-300"><?= $habitat['nom_habitat']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $habitat['description_habitat']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $habitat['type_climat']; ?></td>
-              <td class="px-4 py-2 border border-gray-300"><?= $habitat['zonezoo']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $habitat['zone_zoo']; ?></td>
               <td class="px-4 py-2 border border-gray-300">
                 <div class="flex gap-3">
                   <a href="../../actions/modifier_habitat.php?id=<?= $habitat['id_habitat']; ?>">
