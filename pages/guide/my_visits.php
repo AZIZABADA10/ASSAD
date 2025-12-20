@@ -2,9 +2,7 @@
 session_start();
 require_once '../../config/db.php';
 
-/* ===========================
-   Sécurité
-=========================== */
+
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'guide') {
   header('Location: ../../pages/public/login.php');
   exit();
@@ -12,9 +10,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'guide') {
 
 $id_guide = $_SESSION['user']['id_utilisateur'];
 
-/* ===========================
-   Changer le statut (ouverte / annulee)
-=========================== */
+
 if (isset($_POST['changer_statut'])) {
   $id_visite = (int) $_POST['id_visite'];
   $statut = $_POST['statut'];
@@ -30,9 +26,7 @@ if (isset($_POST['changer_statut'])) {
   }
 }
 
-/* ===========================
-   Récupérer les visites du guide
-=========================== */
+
 $visites = $connexion->query("
     SELECT * FROM visitesguidees
     WHERE id_guide = $id_guide
