@@ -22,12 +22,12 @@ if (isset($_POST['ajouter_animal'])) {
 
     $stmt = $connexion->prepare("
         INSERT INTO animal 
-        (nom, espace, alimentation, image_animal, pays_origine, id_habitat, description_courte)
+        (nom_animal, espace, alimentation, image_animal, pays_origine, id_habitat, description_courte)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
 
     $stmt->bind_param(
-        "sisssis",
+        "sssssis",
         $nom,
         $espace,
         $alimentation,
