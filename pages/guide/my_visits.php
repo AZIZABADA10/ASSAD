@@ -2,36 +2,27 @@
 session_start();
 require_once '../../config/db.php';
 
-
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'guide') {
-  header('Location: ../../pages/public/login.php');
-  exit();
+    header('Location: ../../pages/public/login.php');
+    exit();
 }
 
 $id_guide = $_SESSION['user']['id_utilisateur'];
-
-
-if (isset($_POST['changer_statut'])) {
-  $id_visite = (int) $_POST['id_visite'];
-  $statut = $_POST['statut'];
-
-  if (in_array($statut, ['ouverte', 'annulee'])) {
-    $stmt = $connexion->prepare("
-            UPDATE visitesguidees 
-            SET statut = ?
-            WHERE id_visite = ? AND id_guide = ?
-        ");
-    $stmt->bind_param("sii", $statut, $id_visite, $id_guide);
-    $stmt->execute();
-  }
-}
-
 
 $visites = $connexion->query("
     SELECT * FROM visitesguidees
     WHERE id_guide = $id_guide
     ORDER BY date_heure DESC
 ");
+
+
+$zones = $connexion->query("
+    SELECT DISTINCT h.zone_zoo 
+    FROM habitats h
+    JOIN animal a ON a.id_habitat = h.id_habitat
+    ORDER BY h.zone_zoo ASC
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -134,7 +125,6 @@ $visites = $connexion->query("
               <td class="border px-4 py-2">
                 <div class="flex items-center gap-2">
 
-                  <!-- Badge statut -->
                   <span class="px-3 py-1 rounded-full text-sm
                     <?= $visite['statut'] == 'ouverte' ? 'bg-green-200 text-green-800' : '' ?>
                     <?= $visite['statut'] == 'annulee' ? 'bg-red-200 text-red-800' : '' ?>
@@ -142,7 +132,6 @@ $visites = $connexion->query("
                     <?= ucfirst($visite['statut']) ?>
                   </span>
 
-                  <!-- Bouton Annuler -->
                   <?php if ($visite['statut'] !== 'annulee'): ?>
                     <form method="GET" action="../../actions/crud_visite.php">
                       <input type="hidden" name="id_annuler" value="<?= $visite['id_visite'] ?>">
@@ -168,24 +157,11 @@ $visites = $connexion->query("
                           transition-all duration-300">
                   <i class='bx bx-edit text-xl group-hover:scale-110 transition'></i>
                 </a>
-
-                <!-- Ajouter étape -->
-                <button
-                  onclick="ouvrirModalEtape(<?= $visite['id_visite'] ?>)"
-                  title="Ajouter une étape"
-                  class="group flex items-center justify-center
-                        w-10 h-10 rounded-full
-                        bg-gradient-to-r from-blue-600 to-blue-700
-                        text-white
-                        shadow-md shadow-blue-900/30
-                        hover:scale-110 hover:shadow-xl
-                        transition-all duration-300">
-
-                  <i class='bx bx-plus-circle text-xl
+                   <button onclick="ouvrirModalEtape(<?= $visite['id_visite'] ?>)" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                    <i class='bx bx-plus-circle text-xl
                             group-hover:rotate-90
                             transition-transform duration-300'></i>
-                </button>
-
+                          </button>
               </div>
             </td>
             </tr>
@@ -196,7 +172,6 @@ $visites = $connexion->query("
     </main>
   </div>
 
-  <!-- ================= MODAL AJOUT ================= -->
   <div id="ajouter-visite-modal" class="hidden fixed inset-0 bg-dark/90 flex justify-center items-center z-50">
 
     <div class="bg-dark p-8 rounded-xl w-full max-w-md text-white">
@@ -208,7 +183,7 @@ $visites = $connexion->query("
 
         <textarea name="description" required placeholder="Description de la visite (contenu, thèmes, animaux, etc.)"
           class="w-full px-4 py-2 rounded bg-transparent border text-white placeholder-gray-400">
-</textarea>
+        </textarea>
 
         <input type="date" name="date" required class="w-full px-4 py-2 rounded bg-transparent border">
         <input type="time" name="heure_debut" required class="w-full px-4 py-2 rounded bg-transparent border">
@@ -234,37 +209,30 @@ $visites = $connexion->query("
     </div>
   </div>
 
-
   <div id="modal-etape" class="hidden fixed inset-0 bg-dark/90 flex items-center justify-center z-50">
-    <div class="bg-dark p-8 rounded-xl w-full max-w-md text-white">
+      <div class="bg-dark p-8 rounded-xl w-full max-w-md text-white">
+          <h2 class="text-xl font-bold mb-4 text-accent text-center">Ajouter une Étape</h2>
+          <form action="../../actions/crud_etape_visite.php" method="POST" class="space-y-3">
+              <input type="hidden" name="id_visite" id="id_visite_etape">
+              <input type="text" name="titre_etape" placeholder="Titre de l'étape" required class="w-full px-4 py-2 rounded bg-transparent border">
+              <textarea name="description_etape" placeholder="Description de l'étape" required class="w-full px-4 py-2 rounded bg-transparent border text-white"></textarea>
 
-      <h2 class="text-xl font-bold mb-4 text-accent text-center">
-        Ajouter une étape
-      </h2>
+              <label for="zone_etape">Zone zoo</label>
+              <select name="zone_etape" required class="w-full px-4 py-2 rounded bg-transparent border text-white">
+                  <option value="">Sélectionner une zone du zoo</option>
+                  <?php
+                  $zones->data_seek(0); 
+                  while($zone = $zones->fetch_assoc()):
+                  ?>
+                      <option value="<?= htmlspecialchars($zone['zone_zoo']); ?>"><?= htmlspecialchars($zone['zone_zoo']); ?></option>
+                  <?php endwhile; ?>
+              </select>
 
-      <form action="../../actions/ajouter_etape.php" method="POST" class="space-y-3">
-
-        <input type="hidden" name="id_visite" id="id_visite_etape">
-
-        <input type="text" name="titre_etape" placeholder="Titre de l'étape" required
-          class="w-full px-4 py-2 rounded bg-transparent border">
-
-        <textarea name="description_etape" placeholder="Description de l'étape" required
-          class="w-full px-4 py-2 rounded bg-transparent border text-white placeholder-gray-400"></textarea>
-
-        <input type="number" name="ordre_etape" placeholder="Ordre (1, 2, 3...)" required
-          class="w-full px-4 py-2 rounded bg-transparent border">
-
-        <button type="submit" class="w-full bg-blue-600 py-2 rounded font-semibold hover:bg-blue-700">
-          Ajouter l'étape
-        </button>
-
-        <button type="button" onclick="fermerModalEtape()" class="w-full bg-gray-600 py-2 rounded font-semibold">
-          Annuler
-        </button>
-
-      </form>
-    </div>
+              <input type="number" name="ordre_etape" placeholder="Ordre (1,2,3...)" required class="w-full px-4 py-2 rounded bg-transparent border">
+              <button type="submit" name="ajouter_etape" class="w-full bg-blue-600 py-2 rounded font-semibold hover:bg-blue-700">Ajouter Étape</button>
+              <button type="button" onclick="fermerModalEtape()" class="w-full bg-gray-600 py-2 rounded font-semibold">Annuler</button>
+          </form>
+      </div>
   </div>
 
 
@@ -283,6 +251,13 @@ $visites = $connexion->query("
     function fermerModalEtape() {
       document.getElementById('modal-etape').classList.add('hidden');
     }
+  function afficher_modal(id) { document.getElementById(id).classList.remove('hidden'); }
+  function masquer_modal(id) { document.getElementById(id).classList.add('hidden'); }
+  function ouvrirModalEtape(idVisite) {
+      document.getElementById('id_visite_etape').value = idVisite;
+      document.getElementById('modal-etape').classList.remove('hidden');
+  }
+  function fermerModalEtape() { document.getElementById('modal-etape').classList.add('hidden'); }
   </script>
 
 </body>
