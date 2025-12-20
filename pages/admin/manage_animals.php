@@ -153,7 +153,7 @@ $aminaux = $connexion -> query("SELECT * FROM animal ORDER BY id_animal DESC");
             <?php while ($animal = $aminaux->fetch_assoc()): ?>
             <tr class="hover:bg-gray-100" >
               <td class="px-4 py-2 border border-gray-300" ><?= $animal['id_animal']; ?></td>
-              <td class="px-4 py-2 border border-gray-300"><?= $animal['nom']; ?></td>
+              <td class="px-4 py-2 border border-gray-300"><?= $animal['nom_animal']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['espace']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><?= $animal['alimentation']; ?></td>
               <td class="px-4 py-2 border border-gray-300"><img src="../../actions/uploads/<?= $animal['image_animal']; ?>" class="w-20 h-16 object-cover rounded"></td>
