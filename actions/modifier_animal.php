@@ -74,3 +74,87 @@ if (isset($_POST['modifier_animal'])) {
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Modifier Animal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+
+<main class="ml-64 w-full p-8">
+  <div class="fixed inset-0 z-50 flex justify-center items-center bg-gray-900/80 backdrop-blur-lg">
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl p-8 w-full max-w-lg animate-fade-in">
+
+      <h2 class="text-2xl font-bold text-center text-yellow-400 mb-6">
+        Modifier Animal
+      </h2>
+
+      <form method="POST" enctype="multipart/form-data" class="space-y-4">
+
+        <input type="text" name="nom_animal"
+               value="<?= $animal['nom_animal'] ?>"
+               placeholder="Nom de l’animal"
+               class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white"
+               required>
+
+        <input type="text" name="espace"
+               value="<?= $animal['espace'] ?>"
+               placeholder="Type d’espace"
+               class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+
+        <select name="alimentation"
+                class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+          <option value="herbivore" <?= $animal['alimentation'] === 'herbivore' ? 'selected' : '' ?>>Herbivore</option>
+          <option value="carnivore" <?= $animal['alimentation'] === 'carnivore' ? 'selected' : '' ?>>Carnivore</option>
+          <option value="omnivore" <?= $animal['alimentation'] === 'omnivore' ? 'selected' : '' ?>>Omnivore</option>
+        </select>
+
+        <input type="file" name="image_animal"
+               class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+
+        <input type="text" name="pays_origine"
+               value="<?= $animal['pays_origine'] ?>"
+               placeholder="Pays d’origine"
+               class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+
+        <textarea name="description_courte"
+                  placeholder="Description courte"
+                  class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white"
+                  rows="3"><?= $animal['description_courte'] ?></textarea>
+
+        <input type="number" name="id_habitat"
+               value="<?= $animal['id_habitat'] ?>"
+               placeholder="ID Habitat"
+               class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+
+        <button name="modifier_animal"
+                class="w-full py-3 rounded-lg bg-yellow-400 text-gray-900 font-semibold hover:bg-yellow-500 hover:scale-105 transition">
+          Modifier
+        </button>
+
+        <a href="../pages/admin/manage_animals.php"
+           class="block text-center py-3 rounded-lg bg-red-600 text-white hover:bg-red-700 transition">
+          Annuler
+        </a>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+<style>
+@keyframes fade-in {
+  from {opacity:0; transform: translateY(-10px);}
+  to {opacity:1; transform: translateY(0);}
+}
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+</style>
+
+</body>
+</html>
