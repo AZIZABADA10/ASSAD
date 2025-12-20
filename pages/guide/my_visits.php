@@ -157,7 +157,14 @@ $zones = $connexion->query("
                           transition-all duration-300">
                   <i class='bx bx-edit text-xl group-hover:scale-110 transition'></i>
                 </a>
-                   <button onclick="ouvrirModalEtape(<?= $visite['id_visite'] ?>)" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                   <button onclick="ouvrirModalEtape(<?= $visite['id_visite'] ?>)" 
+                    class="group flex items-center justify-center
+                        w-10 h-10 rounded-full
+                        bg-gradient-to-r from-blue-600 to-blue-700
+                        text-white
+                        shadow-md shadow-blue-900/30
+                        hover:scale-110 hover:shadow-xl
+                        transition-all duration-300">
                     <i class='bx bx-plus-circle text-xl
                             group-hover:rotate-90
                             transition-transform duration-300'></i>
