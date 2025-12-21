@@ -1,4 +1,24 @@
-<?php ?>
+<?php
+
+require_once 'config/db.php';
+
+
+$visites = $connexion->query("SELECT * FROM visitesguidees WHERE statut = 'ouverte' ORDER BY date_heure DESC LIMIT 3");
+
+
+$sql = "
+    SELECT 
+        animal.*,
+        habitats.nom_habitat
+    FROM animal
+    JOIN habitats ON animal.id_habitat = habitats.id_habitat
+    LIMIT 3
+";
+$stmt = $connexion->prepare($sql);
+$stmt->execute();
+$animaux = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -126,15 +146,45 @@
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center shadow">
-                Animal 1
+            
+        <?php foreach ($animaux as $animal): ?>
+            <div class="bg-white rounded-3xl shadow-md overflow-hidden
+                        hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+
+                <!-- Image -->
+                <div class="relative h-60 overflow-hidden">
+                    <img src="actions/uploads/<?= htmlspecialchars($animal['image_animal']) ?>"
+                         class="w-full h-full object-cover">
+
+                    <span class="absolute top-4 left-4 bg-[#f59e0b] text-white
+                                 text-xs font-semibold px-4 py-1 rounded-full shadow">
+                        <?= htmlspecialchars($animal['alimentation']) ?>
+                    </span>
+                </div>
+
+                <!-- Contenu -->
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-[#0f172a] mb-2">
+                        <?= htmlspecialchars($animal['nom_animal']) ?>
+                    </h2>
+
+                    <p class="text-gray-600 text-sm mb-4">
+                        <?= htmlspecialchars($animal['description_courte']) ?>
+                    </p>
+
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-500">
+                            <?= htmlspecialchars($animal['pays_origine']) ?>
+                        </span>
+
+                        <span class="bg-[#16a34a]/10 text-[#14532d]
+                                     font-semibold px-3 py-1 rounded-full">
+                            <?= htmlspecialchars($animal['nom_habitat']) ?>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center shadow">
-                Animal 2
-            </div>
-            <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center shadow">
-                Animal 3
-            </div>
+        <?php endforeach; ?>
         </div>
 
         <div class="text-center mt-12">
@@ -153,17 +203,28 @@
             🧭 Visites Guidées
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="bg-white rounded-2xl h-60 flex items-center justify-center shadow">
-                Visite 1
-            </div>
-            <div class="bg-white rounded-2xl h-60 flex items-center justify-center shadow">
-                Visite 2
-            </div>
-            <div class="bg-white rounded-2xl h-60 flex items-center justify-center shadow">
-                Visite 3
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <?php while($visite = $visites->fetch_assoc()): ?>
+        <div class="bg-gradient-to-b from-white to-gray-50 rounded-3xl shadow-lg p-6 flex flex-col justify-between hover:scale-105 hover:shadow-2xl transition-transform duration-300">
+
+            <!-- Titre -->
+            <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center"><?= htmlspecialchars($visite['titre']) ?></h3>
+
+            <!-- Description -->
+            <p class="text-gray-600 text-sm mb-4 line-clamp-4 text-center"><?= htmlspecialchars($visite['description']) ?></p>
+
+            <!-- Informations principales avec icônes -->
+            <div class="flex flex-col gap-2 text-gray-700 text-sm mb-4">
+                <div class="flex items-center gap-2"><i class='bx bx-calendar text-yellow-500'></i><span><strong>Date & Heure:</strong> <?= date('d/m/Y H:i', strtotime($visite['date_heure'])) ?></span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-time-five text-blue-500'></i><span><strong>Durée:</strong> <?= $visite['duree'] ?> min</span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-money text-green-500'></i><span><strong>Prix:</strong> <?= $visite['prix'] ?> MAD</span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-globe text-purple-500'></i><span><strong>Langue:</strong> <?= htmlspecialchars($visite['langue']) ?></span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-group text-red-500'></i><span><strong>Capacité:</strong> <?= $visite['capacite_max'] ?></span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-badge-check text-green-500'></i><span><strong>Statut:</strong> <span class="<?= $visite['statut'] === 'active' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' ?>"><?= ucfirst($visite['statut']) ?></span></span></div>
             </div>
         </div>
+        <?php endwhile; ?>
+    </div>
     </div>
     <div class="text-center mt-12">
             <a href="pages/public/animals.php"
