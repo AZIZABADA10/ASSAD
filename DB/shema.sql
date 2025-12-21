@@ -100,3 +100,10 @@ CREATE TABLE IF NOT EXISTS commentaires (
         REFERENCES utilisateurs(id_utilisateur)
         ON DELETE CASCADE
 );
+
+
+
+ALTER TABLE visitesguidees
+ADD COLUMN id_guide INT UNSIGNED NOT NULL AFTER id_visite,
+ADD CONSTRAINT fk_visite_guide
+  FOREIGN KEY (id_guide) REFERENCES utilisateurs(id_utilisateur);
