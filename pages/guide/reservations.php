@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 $guide_id = $_SESSION['user']['id_utilisateur'] ?? null;
 
 $sql = "
-SELECT r.id_reservation, r.nb_personnes, r.date_reservation,
+SELECT r.id_reservation,r.statut, r.nb_personnes, r.date_reservation,
        u.nom_complet AS visiteur, v.titre AS visite
 FROM reservations r
 JOIN visitesguidees v ON r.id_visite = v.id_visite
@@ -141,6 +141,8 @@ require_once '../layouts/header.php';
                     <th class="border px-4 py-2">Visiteur</th>
                     <th class="border px-4 py-2">Nombre de personnes</th>
                     <th class="border px-4 py-2">Date de réservation</th>
+                    <th class="border px-4 py-2">Statut</th>
+                    <th class="border px-4 py-2">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -150,6 +152,30 @@ require_once '../layouts/header.php';
                     <td class="border px-4 py-2"><?= htmlspecialchars($row['visiteur']) ?></td>
                     <td class="border px-4 py-2"><?= $row['nb_personnes'] ?></td>
                     <td class="border px-4 py-2"><?= date('d/m/Y H:i', strtotime($row['date_reservation'])) ?></td>
+                    <td class="border px-4 py-2">
+                    <span class="px-3 py-1 rounded-full text-sm
+                        <?= $row['statut']=='en_attente' ? 'bg-yellow-200 text-yellow-800' : '' ?>
+                        <?= $row['statut']=='confirmee' ? 'bg-green-200 text-green-800' : '' ?>
+                        <?= $row['statut']=='annulee' ? 'bg-red-200 text-red-800' : '' ?>">
+                        <?= ucfirst($row['statut']) ?>
+                    </span>
+                </td>
+
+                <td class="border px-4 py-2 text-center">
+                <?php if($row['statut']=='en_attente'): ?>
+                    <form method="POST" action="../../actions/update_reservation.php" class="inline">
+                        <input type="hidden" name="id_reservation" value="<?= $row['id_reservation'] ?>">
+                        <input type="hidden" name="statut" value="confirmee">
+                        <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Confirmer</button>
+                    </form>
+                    <form method="POST" action="../../actions/update_reservation.php" class="inline">
+                        <input type="hidden" name="id_reservation" value="<?= $row['id_reservation'] ?>">
+                        <input type="hidden" name="statut" value="annulee">
+                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Annuler</button>
+                    </form>
+                <?php endif; ?>
+                </td>
+
                 </tr>
                 <?php  endwhile;  ?>
             </tbody>
