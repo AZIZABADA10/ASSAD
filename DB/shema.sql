@@ -107,3 +107,7 @@ ALTER TABLE visitesguidees
 ADD COLUMN id_guide INT UNSIGNED NOT NULL AFTER id_visite,
 ADD CONSTRAINT fk_visite_guide
   FOREIGN KEY (id_guide) REFERENCES utilisateurs(id_utilisateur);
+
+
+ALTER TABLE visitesguidees
+ADD COLUMN description TEXT AFTER titre;
