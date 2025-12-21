@@ -1,4 +1,21 @@
-<?php ?>
+<?php
+
+require_once 'config/db.php';
+
+
+$sql = "
+    SELECT 
+        animal.*,
+        habitats.nom_habitat
+    FROM animal
+    JOIN habitats ON animal.id_habitat = habitats.id_habitat
+    LIMIT 3
+";
+$stmt = $connexion->prepare($sql);
+$stmt->execute();
+$animaux = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -126,15 +143,45 @@
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center shadow">
-                Animal 1
+            
+        <?php foreach ($animaux as $animal): ?>
+            <div class="bg-white rounded-3xl shadow-md overflow-hidden
+                        hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+
+                <!-- Image -->
+                <div class="relative h-60 overflow-hidden">
+                    <img src="actions/uploads/<?= htmlspecialchars($animal['image_animal']) ?>"
+                         class="w-full h-full object-cover">
+
+                    <span class="absolute top-4 left-4 bg-[#f59e0b] text-white
+                                 text-xs font-semibold px-4 py-1 rounded-full shadow">
+                        <?= htmlspecialchars($animal['alimentation']) ?>
+                    </span>
+                </div>
+
+                <!-- Contenu -->
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-[#0f172a] mb-2">
+                        <?= htmlspecialchars($animal['nom_animal']) ?>
+                    </h2>
+
+                    <p class="text-gray-600 text-sm mb-4">
+                        <?= htmlspecialchars($animal['description_courte']) ?>
+                    </p>
+
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-500">
+                            <?= htmlspecialchars($animal['pays_origine']) ?>
+                        </span>
+
+                        <span class="bg-[#16a34a]/10 text-[#14532d]
+                                     font-semibold px-3 py-1 rounded-full">
+                            <?= htmlspecialchars($animal['nom_habitat']) ?>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center shadow">
-                Animal 2
-            </div>
-            <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center shadow">
-                Animal 3
-            </div>
+        <?php endforeach; ?>
         </div>
 
         <div class="text-center mt-12">
