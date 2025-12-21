@@ -11,7 +11,7 @@ if (!isset($_SESSION['user'])) {
 $user_id = $_SESSION['user']['id_utilisateur'] ?? null;
 
 //$visites = $connexion->query("SELECT * FROM visitesguidees ORDER BY date_heure ASC");
-$visites = $connexion->query("SELECT * FROM visitesguidees WHERE statut = 'ouverte' ORDER BY date_heure DESC LIMIT 3");
+$visites = $connexion->query("SELECT * FROM visitesguidees WHERE statut = 'ouverte' ORDER BY date_heure DESC");
 
 $stmt_check = $connexion->prepare("SELECT * FROM reservations WHERE id_visite = ? AND id_utilisateur = ?");
 $stmt_check->bind_param("ii", $visite['id_visite'], $user_id);

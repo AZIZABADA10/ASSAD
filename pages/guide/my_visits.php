@@ -142,9 +142,9 @@ $visites = $connexion->query("
 
                   <!-- Badge statut -->
                   <span class="px-3 py-1 rounded-full text-sm
-      <?= $visite['statut'] == 'ouverte' ? 'bg-green-200 text-green-800' : '' ?>
-      <?= $visite['statut'] == 'annulee' ? 'bg-red-200 text-red-800' : '' ?>
-      <?= $visite['statut'] == 'complete' ? 'bg-gray-300 text-gray-700' : '' ?>">
+                    <?= $visite['statut'] == 'ouverte' ? 'bg-green-200 text-green-800' : '' ?>
+                    <?= $visite['statut'] == 'annulee' ? 'bg-red-200 text-red-800' : '' ?>
+                    <?= $visite['statut'] == 'complete' ? 'bg-gray-300 text-gray-700' : '' ?>">
                     <?= ucfirst($visite['statut']) ?>
                   </span>
 
@@ -161,16 +161,39 @@ $visites = $connexion->query("
 
                 </div>
               </td>
+            <td class="border px-4 py-2 text-center">
+              <div class="flex justify-center items-center gap-3">
 
-              <td class="border px-4 py-2 text-center">
-                <div class="flex justify-center gap-2">
+                <!-- Modifier -->
+                <a href="../../actions/modifier_visite.php?id=<?= $visite['id_visite'] ?>"
+                  title="Modifier la visite"
+                  class="group flex items-center justify-center
+                          w-10 h-10 rounded-full
+                          bg-green-100 text-green-700
+                          hover:bg-green-600 hover:text-white
+                          transition-all duration-300">
+                  <i class='bx bx-edit text-xl group-hover:scale-110 transition'></i>
+                </a>
 
-                  <a href="../../actions/modifier_visite.php?id=<?= $visite['id_visite'] ?>">
-                    <i class='bxr  bx-edit ' style='color:#068b00'></i>
-                  </a>
-                </div>
-              </td>
+                <!-- Ajouter étape -->
+                <button
+                  onclick="ouvrirModalEtape(<?= $visite['id_visite'] ?>)"
+                  title="Ajouter une étape"
+                  class="group flex items-center justify-center
+                        w-10 h-10 rounded-full
+                        bg-gradient-to-r from-blue-600 to-blue-700
+                        text-white
+                        shadow-md shadow-blue-900/30
+                        hover:scale-110 hover:shadow-xl
+                        transition-all duration-300">
 
+                  <i class='bx bx-plus-circle text-xl
+                            group-hover:rotate-90
+                            transition-transform duration-300'></i>
+                </button>
+
+              </div>
+            </td>
             </tr>
           <?php endwhile; ?>
         </tbody>
@@ -217,11 +240,55 @@ $visites = $connexion->query("
     </div>
   </div>
 
+
+  <div id="modal-etape" class="hidden fixed inset-0 bg-dark/90 flex items-center justify-center z-50">
+    <div class="bg-dark p-8 rounded-xl w-full max-w-md text-white">
+
+      <h2 class="text-xl font-bold mb-4 text-accent text-center">
+        Ajouter une étape
+      </h2>
+
+      <form action="../../actions/ajouter_etape.php" method="POST" class="space-y-3">
+
+        <input type="hidden" name="id_visite" id="id_visite_etape">
+
+        <input type="text" name="titre_etape" placeholder="Titre de l'étape" required
+          class="w-full px-4 py-2 rounded bg-transparent border">
+
+        <textarea name="description_etape" placeholder="Description de l'étape" required
+          class="w-full px-4 py-2 rounded bg-transparent border text-white placeholder-gray-400"></textarea>
+
+        <input type="number" name="ordre_etape" placeholder="Ordre (1, 2, 3...)" required
+          class="w-full px-4 py-2 rounded bg-transparent border">
+
+        <button type="submit" class="w-full bg-blue-600 py-2 rounded font-semibold hover:bg-blue-700">
+          Ajouter l'étape
+        </button>
+
+        <button type="button" onclick="fermerModalEtape()" class="w-full bg-gray-600 py-2 rounded font-semibold">
+          Annuler
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+
   <script>
     function afficher_modal(id) {
       document.getElementById(id).classList.remove('hidden');
     }
-    function masquer_modal(id) { document.getElementById(id).classList.add('hidden'); }
+    function masquer_modal(id) {
+      document.getElementById(id).classList.add('hidden');
+     }
+    function ouvrirModalEtape(idVisite) {
+      document.getElementById('id_visite_etape').value = idVisite;
+      document.getElementById('modal-etape').classList.remove('hidden');
+    }
+
+    function fermerModalEtape() {
+      document.getElementById('modal-etape').classList.add('hidden');
+    }
   </script>
 
 </body>
