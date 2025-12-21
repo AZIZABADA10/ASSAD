@@ -70,8 +70,7 @@ require_once '../layouts/header.php';
     </h1>
 
     <!-- Filtres -->
-    <form method="GET"
-          class="max-w-5xl mx-auto mb-14 bg-white p-6 rounded-3xl shadow-lg">
+    <form method="GET" class="max-w-5xl mx-auto mb-14 bg-white p-6 rounded-3xl shadow-lg">
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
 
@@ -80,13 +79,11 @@ require_once '../layouts/header.php';
                 <label class="block text-sm font-semibold text-[#0f172a] mb-2">
                     Habitat
                 </label>
-                <select name="habitat"
-                        class="w-full rounded-xl border-gray-300
+                <select name="habitat" class="w-full rounded-xl border-gray-300
                                focus:ring-[#16a34a] focus:border-[#16a34a]">
                     <option value="">Tous les habitats</option>
                     <?php foreach ($habitats as $h): ?>
-                        <option value="<?= $h['id_habitat'] ?>"
-                            <?= $filtre_habitat == $h['id_habitat'] ? 'selected' : '' ?>>
+                        <option value="<?= $h['id_habitat'] ?>" <?= $filtre_habitat == $h['id_habitat'] ? 'selected' : '' ?>>
                             <?= htmlspecialchars($h['nom_habitat']) ?>
                         </option>
                     <?php endforeach; ?>
@@ -98,8 +95,7 @@ require_once '../layouts/header.php';
                 <label class="block text-sm font-semibold text-[#0f172a] mb-2">
                     Type alimentaire
                 </label>
-                <select name="alimentation"
-                        class="w-full rounded-xl border-gray-300
+                <select name="alimentation" class="w-full rounded-xl border-gray-300
                                focus:ring-[#16a34a] focus:border-[#16a34a]">
                     <option value="">Tous les types</option>
                     <?php foreach ($alimentations as $a): ?>
@@ -113,11 +109,10 @@ require_once '../layouts/header.php';
 
             <!-- Bouton -->
             <div>
-                <button type="submit"
-                        class="w-full bg-blue-600  text-white py-3 rounded-xl
+                <button type="submit" class="w-full bg-blue-600  text-white py-3 rounded-xl
                                font-semibold hover:bg-[#16a34a]
                                transition duration-300 shadow-md">
-                     Filtrer
+                    Filtrer
                 </button>
             </div>
 
@@ -133,7 +128,7 @@ require_once '../layouts/header.php';
                 <!-- Image -->
                 <div class="relative h-60 overflow-hidden">
                     <img src="../../actions/uploads/<?= htmlspecialchars($animal['image_animal']) ?>"
-                         class="w-full h-full object-cover">
+                        class="w-full h-full object-cover">
 
                     <span class="absolute top-4 left-4 bg-[#f59e0b] text-white
                                  text-xs font-semibold px-4 py-1 rounded-full shadow">
