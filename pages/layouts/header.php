@@ -9,6 +9,7 @@
   <script src="../../assets/js/tailwind-config.js"></script>
   <link rel="shortcut icon" href="../../assets/images/assad_logo.png" type="image/x-icon">
   <link rel="stylesheet" href="../../assets/css/style.css">
+  <link href='https://cdn.boxicons.com/3.0.6/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
 </head>
 <body class="bg-light text-dark font-sans">
