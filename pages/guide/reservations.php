@@ -10,12 +10,17 @@ if (!isset($_SESSION['user'])) {
 $guide_id = $_SESSION['user']['id_utilisateur'] ?? null;
 
 $sql = "
-SELECT r.id_reservation,r.statut, r.nb_personnes, r.date_reservation,
-       u.nom_complet AS visiteur, v.titre AS visite
+SELECT 
+    r.id_reservation,
+    r.statut,
+    r.nb_personnes,
+    r.date_reservation,
+    u.nom_complet AS visiteur,
+    v.titre AS visite
 FROM reservations r
 JOIN visitesguidees v ON r.id_visite = v.id_visite
 JOIN utilisateurs u ON r.id_utilisateur = u.id_utilisateur
-WHERE r.id_utilisateur = ?
+WHERE v.id_guide = ?
 ORDER BY r.date_reservation DESC
 ";
 $stmt = $connexion->prepare($sql);
@@ -182,9 +187,6 @@ require_once '../layouts/header.php';
         </table>
     </div>
     <?php else: ?>
-        <?php 
-var_dump($_SESSION['user']);
-die(); ?>
         <p class="text-gray-600">Aucune réservation pour vos visites.</p>
     <?php endif; ?>
 </main>
