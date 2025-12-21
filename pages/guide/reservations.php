@@ -1,11 +1,33 @@
 <?php
-
 session_start();
+require_once __DIR__ .'/../../config/db.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
     exit();
 }
+
+$guide_id = $_SESSION['user']['id_utilisateur'] ?? null;
+
+$sql = "
+SELECT r.id_reservation,r.statut, r.nb_personnes, r.date_reservation,
+       u.nom_complet AS visiteur, v.titre AS visite
+FROM reservations r
+JOIN visitesguidees v ON r.id_visite = v.id_visite
+JOIN utilisateurs u ON r.id_utilisateur = u.id_utilisateur
+WHERE r.id_utilisateur = ?
+ORDER BY r.date_reservation DESC
+";
+$stmt = $connexion->prepare($sql);
+$stmt->bind_param("i", $guide_id);
+$stmt->execute();
+$reservations = $stmt->get_result();
+
+
+
+require_once '../layouts/header.php';
+
+
 
 ?>
 
@@ -106,8 +128,66 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard Guide</h1>
+      <h2 class="text-2xl font-bold mb-6">Mes Réservations</h2>
 
+    <?php
+    //var_dump($reservations);
+     if ($reservations->num_rows > 0): ?>
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border px-4 py-2">Visite</th>
+                    <th class="border px-4 py-2">Visiteur</th>
+                    <th class="border px-4 py-2">Nombre de personnes</th>
+                    <th class="border px-4 py-2">Date de réservation</th>
+                    <th class="border px-4 py-2">Statut</th>
+                    <th class="border px-4 py-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $reservations->fetch_assoc()): ?>
+                <tr class="hover:bg-gray-100">
+                    <td class="border px-4 py-2"><?= htmlspecialchars($row['visite']) ?></td>
+                    <td class="border px-4 py-2"><?= htmlspecialchars($row['visiteur']) ?></td>
+                    <td class="border px-4 py-2"><?= $row['nb_personnes'] ?></td>
+                    <td class="border px-4 py-2"><?= date('d/m/Y H:i', strtotime($row['date_reservation'])) ?></td>
+                    <td class="border px-4 py-2">
+                    <span class="px-3 py-1 rounded-full text-sm
+                        <?= $row['statut']=='en_attente' ? 'bg-yellow-200 text-yellow-800' : '' ?>
+                        <?= $row['statut']=='confirmee' ? 'bg-green-200 text-green-800' : '' ?>
+                        <?= $row['statut']=='annulee' ? 'bg-red-200 text-red-800' : '' ?>">
+                        <?= ucfirst($row['statut']) ?>
+                    </span>
+                </td>
+
+                <td class="border px-4 py-2 text-center">
+                <?php if($row['statut']=='en_attente'): ?>
+                    <form method="POST" action="../../actions/update_reservation.php" class="inline">
+                        <input type="hidden" name="id_reservation" value="<?= $row['id_reservation'] ?>">
+                        <input type="hidden" name="statut" value="confirmee">
+                        <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Confirmer</button>
+                    </form>
+                    <form method="POST" action="../../actions/update_reservation.php" class="inline">
+                        <input type="hidden" name="id_reservation" value="<?= $row['id_reservation'] ?>">
+                        <input type="hidden" name="statut" value="annulee">
+                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Annuler</button>
+                    </form>
+                <?php endif; ?>
+                </td>
+
+                </tr>
+                <?php  endwhile;  ?>
+            </tbody>
+        </table>
+    </div>
+    <?php else: ?>
+        <?php 
+var_dump($_SESSION['user']);
+die(); ?>
+        <p class="text-gray-600">Aucune réservation pour vos visites.</p>
+    <?php endif; ?>
+</main>
       
 
     </main>
