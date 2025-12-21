@@ -111,3 +111,7 @@ ADD CONSTRAINT fk_visite_guide
 
 ALTER TABLE visitesguidees
 ADD COLUMN description TEXT AFTER titre;
+
+
+ALTER TABLE reservations
+ADD COLUMN statut ENUM('en_attente', 'confirmee', 'annulee') DEFAULT 'en_attente';
