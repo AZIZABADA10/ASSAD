@@ -88,38 +88,43 @@ $visites = $connexion->query("SELECT * FROM visitesguidees WHERE id_guide = $id_
         Ajouter visite
       </button>
     </div>
-
     <table class="w-full text-left border-collapse">
-      <thead class="bg-gray-200">
+    <thead class="bg-gray-200">
         <tr>
-          <th class="px-4 py-2 border border-gray-300">Titre</th>
-          <th class="px-4 py-2 border border-gray-300">Date et Heure</th>
-          <th class="px-4 py-2 border border-gray-300">Durée</th>
-          <th class="px-4 py-2 border border-gray-300">Prix</th>
-          <th class="px-4 py-2 border border-gray-300">Langue</th>
-          <th class="px-4 py-2 border border-gray-300">Capacité</th>
-          <th class="px-4 py-2 border border-gray-300">Actions</th>
+        <th class="px-4 py-2 border border-gray-300">Titre</th>
+        <th class="px-4 py-2 border border-gray-300">Date et Heure</th>
+        <th class="px-4 py-2 border border-gray-300">Durée</th>
+        <th class="px-4 py-2 border border-gray-300">Prix</th>
+        <th class="px-4 py-2 border border-gray-300">Langue</th>
+        <th class="px-4 py-2 border border-gray-300">Capacité</th>
+        <th class="px-4 py-2 border border-gray-300 text-center">Actions</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         <?php while ($visite = $visites->fetch_assoc()): ?>
         <tr class="hover:bg-gray-100">
-          <td class="px-4 py-2 border border-gray-300"><?= htmlspecialchars($visite['titre']) ?></td>
-          <td class="px-4 py-2 border border-gray-300"><?= date('Y-m-d H:i', strtotime($visite['date_heure'])) ?></td>
-          <td class="px-4 py-2 border border-gray-300"><?= $visite['duree'] ?> h</td>
-          <td class="px-4 py-2 border border-gray-300"><?= $visite['prix'] ?> MAD</td>
-          <td class="px-4 py-2 border border-gray-300"><?= htmlspecialchars($visite['langue']) ?></td>
-          <td class="px-4 py-2 border border-gray-300"><?= $visite['capacite_max'] ?></td>
-          <td class="px-4 py-2 border border-gray-300 flex gap-2">
+        <td class="px-4 py-2 border border-gray-300"><?= htmlspecialchars($visite['titre']) ?></td>
+        <td class="px-4 py-2 border border-gray-300"><?= date('Y-m-d H:i', strtotime($visite['date_heure'])) ?></td>
+        <td class="px-4 py-2 border border-gray-300"><?= $visite['duree'] ?> h</td>
+        <td class="px-4 py-2 border border-gray-300"><?= $visite['prix'] ?> MAD</td>
+        <td class="px-4 py-2 border border-gray-300"><?= htmlspecialchars($visite['langue']) ?></td>
+        <td class="px-4 py-2 border border-gray-300"><?= $visite['capacite_max'] ?></td>
+        <td class="px-4 py-2 border border-gray-300">
+            <div class="flex justify-center gap-2 min-w-max">
             <a href="../../actions/modifier_visite.php?id=<?= $visite['id_visite'] ?>" 
-               class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition">Modifier</a>
+                class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">
+                Modifier
+            </a>
             <a href="../../actions/crud_visite.php?id_supprimer=<?= $visite['id_visite'] ?>" 
-               onclick="return confirm('Voulez-vous vraiment supprimer cette visite ?')" 
-               class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition">Supprimer</a>
-          </td>
+                onclick="return confirm('Voulez-vous vraiment supprimer cette visite ?')" 
+                class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">
+                Supprimer
+            </a>
+            </div>
+        </td>
         </tr>
         <?php endwhile; ?>
-      </tbody>
+    </tbody>
     </table>
   </main>
 </div>
@@ -130,21 +135,21 @@ $visites = $connexion->query("SELECT * FROM visitesguidees WHERE id_guide = $id_
     <h2 class="text-2xl font-bold text-center text-accent mb-6">Ajouter Visite</h2>
     <form action="../../actions/crud_visite.php" method="POST" class="space-y-4">
       <input type="text" name="titre" placeholder="Titre" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <input type="date" name="date" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <input type="time" name="heure_debut" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 placeholder-gray-400 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <input type="number" name="duree" placeholder="Durée (h)" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <input type="number" name="prix" placeholder="Prix (MAD)" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <input type="text" name="langue" placeholder="Langue" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
       <input type="number" name="capacite_max" placeholder="Capacité max" required
-             class="w-full px-4 py-3 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
-      <button type="submit" name="ajouter_visite" class="w-full py-3 rounded-lg bg-red-700 text-white font-semibold hover:opacity-90 transition">Ajouter</button>
-      <button type="button" onclick="masquer_modal('ajouter-visite-modal')" class="w-full py-3 rounded-lg bg-gray-500 text-white font-semibold hover:opacity-90 transition">Annuler</button>
+             class="w-full px-4 py-1 rounded-lg bg-transparent border border-white/20 focus:ring-2 focus:ring-accent focus:outline-none text-white">
+      <button type="submit" name="ajouter_visite" class="w-full py-1 rounded-lg bg-red-700 text-white font-semibold hover:opacity-90 transition">Ajouter</button>
+      <button type="button" onclick="masquer_modal('ajouter-visite-modal')" class="w-full py-1 rounded-lg bg-gray-500 text-white font-semibold hover:opacity-90 transition">Annuler</button>
     </form>
   </div>
 </div>
