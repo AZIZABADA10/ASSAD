@@ -1,11 +1,33 @@
 <?php
-
 session_start();
+require_once __DIR__ .'/../../config/db.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: ../../pages/public/login.php');
     exit();
 }
+
+$guide_id = $_SESSION['user']['id_utilisateur'] ?? null;
+
+$sql = "
+SELECT r.id_reservation, r.nb_personnes, r.date_reservation,
+       u.nom_complet AS visiteur, v.titre AS visite
+FROM reservations r
+JOIN visitesguidees v ON r.id_visite = v.id_visite
+JOIN utilisateurs u ON r.id_utilisateur = u.id_utilisateur
+WHERE r.id_utilisateur = ?
+ORDER BY r.date_reservation DESC
+";
+$stmt = $connexion->prepare($sql);
+$stmt->bind_param("i", $guide_id);
+$stmt->execute();
+$reservations = $stmt->get_result();
+
+
+
+require_once '../layouts/header.php';
+
+
 
 ?>
 
@@ -106,8 +128,40 @@ if (!isset($_SESSION['user'])) {
 
     <!-- Main content -->
     <main class="ml-64 w-full p-8">
-      <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard Guide</h1>
+      <h2 class="text-2xl font-bold mb-6">Mes Réservations</h2>
 
+    <?php
+    //var_dump($reservations);
+     if ($reservations->num_rows > 0): ?>
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border px-4 py-2">Visite</th>
+                    <th class="border px-4 py-2">Visiteur</th>
+                    <th class="border px-4 py-2">Nombre de personnes</th>
+                    <th class="border px-4 py-2">Date de réservation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $reservations->fetch_assoc()): ?>
+                <tr class="hover:bg-gray-100">
+                    <td class="border px-4 py-2"><?= htmlspecialchars($row['visite']) ?></td>
+                    <td class="border px-4 py-2"><?= htmlspecialchars($row['visiteur']) ?></td>
+                    <td class="border px-4 py-2"><?= $row['nb_personnes'] ?></td>
+                    <td class="border px-4 py-2"><?= date('d/m/Y H:i', strtotime($row['date_reservation'])) ?></td>
+                </tr>
+                <?php  endwhile;  ?>
+            </tbody>
+        </table>
+    </div>
+    <?php else: ?>
+        <?php 
+var_dump($_SESSION['user']);
+die(); ?>
+        <p class="text-gray-600">Aucune réservation pour vos visites.</p>
+    <?php endif; ?>
+</main>
       
 
     </main>
