@@ -3,6 +3,9 @@
 require_once 'config/db.php';
 
 
+$visites = $connexion->query("SELECT * FROM visitesguidees WHERE statut = 'ouverte' ORDER BY date_heure DESC LIMIT 3");
+
+
 $sql = "
     SELECT 
         animal.*,
@@ -200,17 +203,28 @@ $animaux = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             🧭 Visites Guidées
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="bg-white rounded-2xl h-60 flex items-center justify-center shadow">
-                Visite 1
-            </div>
-            <div class="bg-white rounded-2xl h-60 flex items-center justify-center shadow">
-                Visite 2
-            </div>
-            <div class="bg-white rounded-2xl h-60 flex items-center justify-center shadow">
-                Visite 3
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <?php while($visite = $visites->fetch_assoc()): ?>
+        <div class="bg-gradient-to-b from-white to-gray-50 rounded-3xl shadow-lg p-6 flex flex-col justify-between hover:scale-105 hover:shadow-2xl transition-transform duration-300">
+
+            <!-- Titre -->
+            <h3 class="text-2xl font-bold text-gray-800 mb-2 text-center"><?= htmlspecialchars($visite['titre']) ?></h3>
+
+            <!-- Description -->
+            <p class="text-gray-600 text-sm mb-4 line-clamp-4 text-center"><?= htmlspecialchars($visite['description']) ?></p>
+
+            <!-- Informations principales avec icônes -->
+            <div class="flex flex-col gap-2 text-gray-700 text-sm mb-4">
+                <div class="flex items-center gap-2"><i class='bx bx-calendar text-yellow-500'></i><span><strong>Date & Heure:</strong> <?= date('d/m/Y H:i', strtotime($visite['date_heure'])) ?></span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-time-five text-blue-500'></i><span><strong>Durée:</strong> <?= $visite['duree'] ?> min</span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-money text-green-500'></i><span><strong>Prix:</strong> <?= $visite['prix'] ?> MAD</span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-globe text-purple-500'></i><span><strong>Langue:</strong> <?= htmlspecialchars($visite['langue']) ?></span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-group text-red-500'></i><span><strong>Capacité:</strong> <?= $visite['capacite_max'] ?></span></div>
+                <div class="flex items-center gap-2"><i class='bx bx-badge-check text-green-500'></i><span><strong>Statut:</strong> <span class="<?= $visite['statut'] === 'active' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' ?>"><?= ucfirst($visite['statut']) ?></span></span></div>
             </div>
         </div>
+        <?php endwhile; ?>
+    </div>
     </div>
     <div class="text-center mt-12">
             <a href="pages/public/animals.php"
