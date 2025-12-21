@@ -85,7 +85,7 @@ if (!isset($_SESSION['user'])) {
                     hover:bg-white/10 hover:text-accent
                     transition-all duration-300 group  mb-2">
             <i class='bx bx-community text-xl group-hover:scale-110 transition'></i>
-            <span>Visites</span>
+            <span>Mes Visites</span>
         </a>
 
         <a href="reservations.php"
