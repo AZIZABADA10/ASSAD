@@ -39,3 +39,64 @@ CREATE TABLE animal (
     id_habitat int,
     FOREIGN KEY (id_habitat) REFERENCES habitats(id_habitat)
 );
+  
+
+CREATE TABLE IF NOT EXISTS visitesguidees (
+    id_visite INT AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(250) NOT NULL,
+    date_heure DATETIME NOT NULL,
+    langue VARCHAR(100),
+    capacite_max INT,
+    statut ENUM('ouverte','complete','annulee') DEFAULT 'ouverte',
+    duree INT COMMENT 'Durée en minutes',
+    prix DECIMAL(8,2)
+);
+
+
+CREATE TABLE IF NOT EXISTS etapesvisite (
+    id_etape INT AUTO_INCREMENT PRIMARY KEY,
+    titreetape VARCHAR(250) NOT NULL,
+    descriptionetape TEXT,
+    ordreetape INT,
+    id_visite INT NOT NULL,
+    CONSTRAINT fk_etape_visite
+        FOREIGN KEY (id_visite)
+        REFERENCES visitesguidees(id_visite)
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS reservations (
+    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
+    id_visite INT NOT NULL,
+    id_utilisateur INT UNSIGNED NOT NULL,
+    nb_personnes INT NOT NULL,
+    date_reservation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_reservation_visite
+        FOREIGN KEY (id_visite)
+        REFERENCES visitesguidees(id_visite)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_reservation_utilisateur
+        FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateurs(id_utilisateur)
+        ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE IF NOT EXISTS commentaires (
+    id_commentaire INT AUTO_INCREMENT PRIMARY KEY,
+    id_visite INT NOT NULL,
+    id_utilisateur INT NOT NULL,
+    note INT,
+    texte TEXT,
+    date_commentaire DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_commentaire_visite
+        FOREIGN KEY (id_visite)
+        REFERENCES visitesguidees(id_visite)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_commentaire_utilisateur
+        FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateurs(id_utilisateur)
+        ON DELETE CASCADE
+);
