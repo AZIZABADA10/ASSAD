@@ -1,7 +1,7 @@
 CREATE DATABASE assad;
 USE assad;
 
-DROP TABLE utilisateurs;
+
 CREATE TABLE utilisateurs (
     id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
     nom_complet VARCHAR(50) NOT NULL,
@@ -12,20 +12,14 @@ CREATE TABLE utilisateurs (
 );
 
 
--- CREATE USER 'adminAssad'@'localhost'
--- IDENTIFIED BY 'Assad@286';
+CREATE USER 'adminAssad'@'localhost' IDENTIFIED BY 'Assad@286';
 
--- GRANT ALL PRIVILEGES ON assad.* TO 'adminAssad'@'localhost';
--- FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON assad.* TO 'adminAssad'@'localhost';
+FLUSH PRIVILEGES;
 
 
 INSERT INTO utilisateurs (nom_complet, email, `role`, mot_de_passe)
-VALUES (
-    'Administrateur',
-    'admin@assad.ma',
-    'admin',
-    '$2y$10$Jv6f23innul92p/lXtELOO0Coi9TKTSJz.Ks2R/hMueEomcX56Biu'
-);
+VALUES ('Administrateur','admin@assad.ma','admin','$2y$10$Jv6f23innul92p/lXtELOO0Coi9TKTSJz.Ks2R/hMueEomcX56Biu');
 
 
 CREATE TABLE habitats (
@@ -93,6 +87,6 @@ CREATE TABLE commentaires (
     note INT CHECK (note BETWEEN 1 AND 5),
     texte TEXT,
     date_commentaire DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (id_visite) REFERENCES visitesguidees(id_visite),
-        FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur)
+    FOREIGN KEY (id_visite) REFERENCES visitesguidees(id_visite),
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id_utilisateur)
 );
