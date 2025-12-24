@@ -28,10 +28,9 @@ if (isset($_POST['modifier_user'])) {
 
     $pattern_email = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/";
     if (!preg_match($pattern_email, $email)) {
-        $erreurs['email_error'] = "L'adresse email n'est pas valide (format attendu: nom@exemple.com).";
+        $erreurs['email_error'] = "L'adresse email n'est pas valide ";
     }
 
-    // Vérification email existant (exclut l'utilisateur actuel)
     $email_exist = $connexion->prepare("SELECT * FROM utilisateurs WHERE email = ? AND id_utilisateur != ?");
     $email_exist->bind_param('si', $email, $id);
     $email_exist->execute();
@@ -39,7 +38,7 @@ if (isset($_POST['modifier_user'])) {
         $erreurs['email_existe'] = 'Email déjà existant';
     }
 
-    // Mot de passe (facultatif)
+ 
     if (!empty($password)) {
         if (strlen($password) < 6) {
             $erreurs['password_error'] = "Le mot de passe doit faire au moins 6 caractères.";

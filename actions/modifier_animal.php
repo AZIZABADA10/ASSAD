@@ -54,17 +54,7 @@ if (isset($_POST['modifier_animal'])) {
             WHERE id_animal = ?
         ");
 
-        $stmt->bind_param(
-            'ssssssii',
-            $nom,
-            $espace,
-            $alimentation,
-            $image_name,
-            $pays,
-            $description,
-            $id_habitat,
-            $id
-        );
+        $stmt->bind_param('ssssssii',$nom,$espace,$alimentation,$image_name,$pays,$description,$id_habitat,$id);
 
         $stmt->execute();
         header('Location: ../pages/admin/manage_animals.php');

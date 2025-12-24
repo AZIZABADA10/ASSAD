@@ -42,18 +42,7 @@ if (isset($_POST['modifier_visite'])) {
         SET titre=?, description=?, date_heure=?, duree=?, prix=?, langue=?, capacite_max=?
         WHERE id_visite=? AND id_guide=?
     ");
-    $stmt->bind_param(
-        "sssidsiii",
-        $titre,
-        $description,
-        $date_heure,
-        $duree,
-        $prix,
-        $langue,
-        $capacite_max,
-        $id_visite,
-        $id_guide
-    );
+    $stmt->bind_param("sssidsiii",$titre,$description,$date_heure,$duree,$prix,$langue,$capacite_max,$id_visite,$id_guide);
     $stmt->execute();
 
     header('Location: ../pages/guide/my_visits.php');

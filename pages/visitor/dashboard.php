@@ -9,7 +9,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'visiteur') {
 
 $id_visiteur = $_SESSION['user']['id_utilisateur'];
 
-// Récupérer les réservations
 $sql = "
 SELECT r.id_reservation, r.nb_personnes, r.date_reservation, r.statut,
        v.id_visite, v.titre AS visite, u.nom_complet AS guide
@@ -120,3 +119,4 @@ $commentaires_stmt = $connexion->prepare("
 <?php require_once '../layouts/footer.php'; ?>
 </body>
 </html>
+wwwww

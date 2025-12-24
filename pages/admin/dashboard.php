@@ -18,19 +18,15 @@ if (!isset($_SESSION['user'])) {
 // Total utilisateurs
 $total_users = $connexion->query("SELECT COUNT(*) total FROM utilisateurs")->fetch_assoc()['total'];
 
-// Admin
 $total_admin = $connexion->query("SELECT COUNT(*) total FROM utilisateurs WHERE role='admin'")->fetch_assoc()['total'];
 
-// Guide
 $total_guide = $connexion->query("SELECT COUNT(*) total FROM utilisateurs WHERE role='guide'")->fetch_assoc()['total'];
-
-// Visiteur
 $total_visiteur = $connexion->query("SELECT COUNT(*) total FROM utilisateurs WHERE role='visiteur'")->fetch_assoc()['total'];
 
-// Total animaux
+
 $total_animaux = $connexion->query("SELECT COUNT(*) total FROM animal")->fetch_assoc()['total'];
 
-// Total habitats
+
 $total_habitats = $connexion->query("SELECT COUNT(*) total FROM habitats")->fetch_assoc()['total'];
 
 $animaux_alimentation = $connexion->query("
@@ -176,44 +172,6 @@ $animaux_alimentation = $connexion->query("
         <i class='bx bx-food-menu text-green-500'></i>
         Animaux par type alimentaire
       </h3>
-
-      <?php
-      $max = 0;
-      $animaux_alimentation->data_seek(0);
-      while ($row_tmp = $animaux_alimentation->fetch_assoc()) {
-        if ($row_tmp['total'] > $max)
-          $max = $row_tmp['total'];
-      }
-      $animaux_alimentation->data_seek(0);
-      $colors = [
-        'Herbivore' => 'bg-green-500',
-        'Carnivore' => 'bg-red-500',
-        'Omnivore' => 'bg-yellow-500',
-        'Autre' => 'bg-purple-500'
-      ];
-      ?>
-
-      <div class="space-y-4">
-        <?php while ($row = $animaux_alimentation->fetch_assoc()): ?>
-          <?php
-          $type = ucfirst($row['alimentation']);
-          $color = $colors[$type] ?? 'bg-gray-500';
-          $percent = ($row['total'] / $max) * 100;
-          ?>
-          <div class="flex items-center gap-4">
-
-            <span class="w-32 text-gray-700 font-medium"><?= $type ?></span>
-            <div class="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden relative">
-              <div class="<?= $color ?> h-full rounded-full transition-all duration-1000"
-                style="width: <?= $percent ?>%;"></div>
-              <span class="absolute right-2 top-0.5 text-white font-bold text-sm"><?= $row['total'] ?></span>
-            </div>
-          </div>
-        <?php endwhile; ?>
-      </div>
-
-
-
     </main>
 
 
